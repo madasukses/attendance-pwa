@@ -54,7 +54,7 @@
             font-weight: 600;
         }
 
-        .header-user {
+        .header-sub {
             font-size: 12px;
             opacity: 0.9;
             margin-top: 4px;
@@ -148,6 +148,7 @@
             font-size: 12px;
             padding: 8px 12px;
             width: auto;
+            margin-top: 20px;
         }
 
         /* MAIN SCREEN */
@@ -185,6 +186,12 @@
             border: 1px solid #FCA5A5;
         }
 
+        .status-msg.warning {
+            background: #FEF3C7;
+            color: #92400E;
+            border: 1px solid #FCD34D;
+        }
+
         @keyframes slideIn {
             from {
                 opacity: 0;
@@ -196,55 +203,103 @@
             }
         }
 
-        .clock-section {
+        .greeting-section {
             text-align: center;
-            padding: 20px;
+            padding: 24px 20px;
             background: linear-gradient(135deg, #f5f5f5 0%, #fafafa 100%);
             border-radius: 8px;
             margin-bottom: 20px;
         }
 
-        .clock {
+        .greeting-icon {
             font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        .greeting-text {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 4px;
+        }
+
+        .greeting-time {
+            font-size: 12px;
+            color: var(--gray-700);
+        }
+
+        .clock {
+            font-size: 36px;
             font-weight: 300;
             letter-spacing: 2px;
             font-variant-numeric: tabular-nums;
             font-family: 'Courier New', monospace;
+            margin-top: 8px;
+        }
+
+        .location-info {
+            padding: 12px;
+            background: var(--gray-100);
+            border-radius: 8px;
+            font-size: 12px;
+            color: var(--gray-700);
+            margin-bottom: 20px;
+        }
+
+        .location-info strong {
+            color: var(--gray-900);
+        }
+
+        #fotoInput {
+            display: none;
+        }
+
+        .photo-section {
+            margin-bottom: 20px;
+        }
+
+        .photo-section-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--gray-900);
             margin-bottom: 8px;
-        }
-
-        .date {
-            font-size: 12px;
-            color: var(--gray-700);
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-        }
-
-        .form-label {
-            display: block;
-            font-size: 12px;
-            font-weight: 500;
-            color: var(--gray-700);
-            margin-bottom: 6px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
-        .form-control {
+        .photo-preview {
             width: 100%;
-            padding: 12px;
-            border: 1px solid var(--gray-300);
+            height: 200px;
+            object-fit: cover;
             border-radius: 8px;
-            font-size: 14px;
-            font-family: inherit;
+            margin-bottom: 8px;
+            border: 2px solid var(--gray-300);
         }
 
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(27, 138, 62, 0.1);
+        .photo-preview.has-image {
+            border-color: var(--success);
+        }
+
+        .btn-photo {
+            width: 100%;
+            padding: 16px;
+            background: var(--gray-200);
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 12px;
+        }
+
+        .btn-photo:active {
+            background: var(--gray-300);
+        }
+
+        .btn-photo.has-photo {
+            background: var(--success);
+            color: white;
         }
 
         .buttons-group {
@@ -269,8 +324,14 @@
             color: white;
         }
 
-        .btn-checkin:active {
+        .btn-checkin:active:not(:disabled) {
             background: #059669;
+        }
+
+        .btn-checkin:disabled {
+            background: var(--gray-300);
+            cursor: not-allowed;
+            opacity: 0.5;
         }
 
         .btn-checkout {
@@ -282,36 +343,18 @@
             background: #dc2626;
         }
 
-        #fotoInput {
-            display: none;
-        }
-
-        .photo-preview {
-            width: 100%;
-            max-height: 150px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-top: 8px;
-        }
-
-        .location-info {
-            padding: 12px;
-            background: var(--gray-100);
-            border-radius: 8px;
-            font-size: 12px;
-            color: var(--gray-700);
-            margin-bottom: 16px;
-        }
-
-        .location-info strong {
-            color: var(--gray-900);
-        }
-
         .history-section {
             padding: 16px;
             background: var(--gray-100);
             border-radius: 8px;
             font-size: 12px;
+            margin-top: 20px;
+        }
+
+        .history-title {
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--gray-900);
         }
 
         .history-item {
@@ -323,9 +366,15 @@
             border-bottom: none;
         }
 
-        .history-time {
+        .history-name {
             font-weight: 600;
             color: var(--primary);
+        }
+
+        .history-time {
+            font-size: 11px;
+            color: var(--gray-700);
+            margin-top: 2px;
         }
 
         .empty {
@@ -334,9 +383,19 @@
             color: var(--gray-700);
         }
 
-        .logout-btn-wrapper {
-            margin-top: 20px;
-            text-align: center;
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            background: var(--success);
+            color: white;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 500;
+            margin-top: 8px;
+        }
+
+        .status-badge.checkout {
+            background: var(--gray-300);
         }
     </style>
 </head>
@@ -364,44 +423,37 @@
     <div id="mainScreen" class="main-screen">
         <div class="header">
             <h1>📍 Attendance Nosada</h1>
-            <div class="header-user" id="userDisplay">User</div>
         </div>
 
         <div class="container">
             <div id="statusMsg" class="status-msg"></div>
 
-            <div class="clock-section">
+            <!-- GREETING -->
+            <div class="greeting-section">
+                <div class="greeting-icon" id="greetingIcon">👋</div>
+                <div class="greeting-text" id="greetingText">Selamat Pagi</div>
+                <div class="greeting-time" id="userName">User</div>
                 <div class="clock" id="clock">00:00:00</div>
-                <div class="date" id="dateDisplay">Senin, 1 Januari 2024</div>
             </div>
 
+            <!-- LOCATION -->
             <div class="location-info" id="locationInfo">
                 📍 Mencari lokasi...
             </div>
 
-            <div class="form-group">
-                <label class="form-label">Nama Karyawan</label>
-                <input 
-                    type="text" 
-                    id="namaInput" 
-                    class="form-control" 
-                    placeholder="Pilih dari dropdown"
-                    list="namaSuggestions"
-                >
-                <datalist id="namaSuggestions"></datalist>
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">Foto (Opsional)</label>
-                <button class="btn btn-primary" onclick="document.getElementById('fotoInput').click()" style="margin-bottom: 8px;">
-                    📸 Ambil Foto
-                </button>
-                <input type="file" id="fotoInput" accept="image/*" capture="environment">
+            <!-- PHOTO SECTION -->
+            <div class="photo-section">
+                <div class="photo-section-label">📸 Foto Selfie (Wajib untuk Check In)</div>
                 <img id="photoPreview" class="photo-preview" style="display: none;">
+                <button class="btn-photo" id="photBtn" onclick="document.getElementById('fotoInput').click()">
+                    📷 Ambil Foto
+                </button>
+                <input type="file" id="fotoInput" accept="image/*" capture="user">
             </div>
 
+            <!-- BUTTONS -->
             <div class="buttons-group">
-                <button class="btn-large btn-checkin" onclick="submitCheckin()">
+                <button class="btn-large btn-checkin" id="checkInBtn" onclick="submitCheckin()" disabled>
                     ✓<br>CHECK IN
                 </button>
                 <button class="btn-large btn-checkout" onclick="submitCheckout()">
@@ -409,14 +461,14 @@
                 </button>
             </div>
 
-            <div class="history-section" style="margin-top: 20px;">
-                <div style="font-weight: 600; margin-bottom: 12px;">Riwayat Hari Ini</div>
-                <div id="historyList" class="empty">Belum ada data</div>
+            <!-- STATUS TODAY -->
+            <div class="history-section">
+                <div class="history-title">Status Hari Ini</div>
+                <div id="todayStatus" class="empty">Belum ada data</div>
             </div>
 
-            <div class="logout-btn-wrapper">
-                <button class="btn btn-logout" onclick="logout()">Keluar</button>
-            </div>
+            <!-- LOGOUT -->
+            <button class="btn btn-logout" onclick="logout()">Keluar</button>
         </div>
     </div>
 
@@ -424,25 +476,32 @@
         // CONFIG
         const GAS_URL = 'https://script.google.com/macros/s/AKfycbxc7YDPcq_7BUdf_Pdj-CoD41NPDuiCpu5VI2gQsMik_R0xn_AE33rmw1YUgKKKknH8Ag/exec';
         const VALID_USERS = ['mada', 'istri', 'novita', 'dian', 'fara', 'alya'];
-        const KARYAWAN = ['Mada', 'Istri', 'Novita', 'Dian', 'Fara', 'Alya'];
+        const KARYAWAN = {
+            'mada': 'Mada',
+            'istri': 'Istri',
+            'novita': 'Novita',
+            'dian': 'Dian',
+            'fara': 'Fara',
+            'alya': 'Alya'
+        };
 
         let currentUser = null;
         let currentPhoto = null;
         let currentLat = null;
         let currentLng = null;
+        let hasCheckinToday = false;
 
         // INIT
         document.addEventListener('DOMContentLoaded', function() {
             checkLogin();
             setupPhotoInput();
-            loadKaryawanList();
             
             if (currentUser) {
                 updateClock();
                 getLocation();
-                loadTodayHistory();
+                loadTodayStatus();
                 setInterval(updateClock, 1000);
-                setInterval(loadTodayHistory, 30000);
+                setInterval(loadTodayStatus, 30000);
             }
         });
 
@@ -466,9 +525,9 @@
             
             updateClock();
             getLocation();
-            loadTodayHistory();
+            loadTodayStatus();
             setInterval(updateClock, 1000);
-            setInterval(loadTodayHistory, 30000);
+            setInterval(loadTodayStatus, 30000);
         }
 
         function checkLogin() {
@@ -493,17 +552,33 @@
         function showLoginScreen(show) {
             document.getElementById('loginScreen').style.display = show ? 'flex' : 'none';
             document.getElementById('mainScreen').classList.toggle('active', !show);
-            
-            if (!show) {
-                const displayName = KARYAWAN[VALID_USERS.indexOf(currentUser)];
-                document.getElementById('userDisplay').textContent = '👤 ' + displayName;
-            }
         }
 
-        // LOAD KARYAWAN LIST
-        function loadKaryawanList() {
-            const datalist = document.getElementById('namaSuggestions');
-            datalist.innerHTML = KARYAWAN.map(k => `<option value="${k}">`).join('');
+        // GREETING
+        function getGreeting() {
+            const hour = new Date().getHours();
+            const userName = KARYAWAN[currentUser];
+            
+            let greeting = '';
+            let icon = '';
+            
+            if (hour >= 5 && hour < 12) {
+                greeting = 'Selamat Pagi';
+                icon = '🌅';
+            } else if (hour >= 12 && hour < 15) {
+                greeting = 'Selamat Siang';
+                icon = '☀️';
+            } else if (hour >= 15 && hour < 18) {
+                greeting = 'Selamat Sore';
+                icon = '🌤️';
+            } else {
+                greeting = 'Selamat Malam';
+                icon = '🌙';
+            }
+            
+            document.getElementById('greetingIcon').textContent = icon;
+            document.getElementById('greetingText').textContent = greeting;
+            document.getElementById('userName').textContent = userName;
         }
 
         // CLOCK
@@ -514,13 +589,7 @@
             const secs = String(now.getSeconds()).padStart(2, '0');
             document.getElementById('clock').textContent = `${hours}:${mins}:${secs}`;
             
-            const formatter = new Intl.DateTimeFormat('id-ID', {
-                weekday: 'long',
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric'
-            });
-            document.getElementById('dateDisplay').textContent = formatter.format(now);
+            getGreeting();
         }
 
         // LOCATION
@@ -537,7 +606,7 @@
                 },
                 (error) => {
                     document.getElementById('locationInfo').innerHTML = 
-                        '✗ GPS tidak tersedia: ' + error.message;
+                        '✗ GPS tidak tersedia';
                 }
             );
         }
@@ -554,6 +623,13 @@
                     const preview = document.getElementById('photoPreview');
                     preview.src = currentPhoto;
                     preview.style.display = 'block';
+                    
+                    const photoBtn = document.getElementById('photBtn');
+                    photoBtn.classList.add('has-photo');
+                    photoBtn.textContent = '✓ Foto Tersimpan';
+                    
+                    // Enable check in button
+                    document.getElementById('checkInBtn').disabled = false;
                 };
                 reader.readAsDataURL(file);
             });
@@ -561,18 +637,17 @@
 
         // SUBMIT CHECKIN
         async function submitCheckin() {
-            const nama = document.getElementById('namaInput').value.trim();
-
-            if (!nama) {
-                showStatus('Pilih nama karyawan terlebih dahulu', 'error');
+            if (!currentPhoto) {
+                showStatus('Ambil foto terlebih dahulu!', 'error');
                 return;
             }
 
-            const btn = event.target;
+            const btn = document.getElementById('checkInBtn');
             btn.disabled = true;
-            showStatus('Mengirim data...', 'loading');
+            showStatus('Check In..', 'loading');
 
             try {
+                const nama = KARYAWAN[currentUser];
                 const payload = {
                     tipe: 'checkin',
                     nama: nama,
@@ -590,40 +665,38 @@
 
                 if (result.success) {
                     showStatus('✓ ' + result.message, 'success');
-                    document.getElementById('namaInput').value = '';
-                    currentPhoto = null;
-                    document.getElementById('photoPreview').style.display = 'none';
-                    loadTodayHistory();
+                    hasCheckinToday = true;
+                    btn.disabled = true;
+                    loadTodayStatus();
                 } else {
-                    showStatus('⚠ ' + result.message, 'error');
+                    showStatus('⚠ ' + result.message, 'warning');
+                    btn.disabled = false;
                 }
             } catch (error) {
                 showStatus('Error: ' + error.message, 'error');
-            } finally {
                 btn.disabled = false;
             }
         }
 
         // SUBMIT CHECKOUT
         async function submitCheckout() {
-            const nama = document.getElementById('namaInput').value.trim();
-
-            if (!nama) {
-                showStatus('Pilih nama karyawan terlebih dahulu', 'error');
+            if (!hasCheckinToday) {
+                showStatus('Belum check in hari ini!', 'error');
                 return;
             }
 
             const btn = event.target;
             btn.disabled = true;
-            showStatus('Mengirim data...', 'loading');
+            showStatus('Check Out...', 'loading');
 
             try {
+                const nama = KARYAWAN[currentUser];
                 const payload = {
                     tipe: 'checkout',
                     nama: nama,
                     latitude: currentLat,
                     longitude: currentLng,
-                    fotoBase64: currentPhoto
+                    fotoBase64: null
                 };
 
                 const response = await fetch(GAS_URL, {
@@ -635,12 +708,11 @@
 
                 if (result.success) {
                     showStatus('✓ ' + result.message, 'success');
-                    document.getElementById('namaInput').value = '';
-                    currentPhoto = null;
-                    document.getElementById('photoPreview').style.display = 'none';
-                    loadTodayHistory();
+                    hasCheckinToday = false;
+                    document.getElementById('checkInBtn').disabled = false;
+                    loadTodayStatus();
                 } else {
-                    showStatus('⚠ ' + result.message, 'error');
+                    showStatus('⚠ ' + result.message, 'warning');
                 }
             } catch (error) {
                 showStatus('Error: ' + error.message, 'error');
@@ -649,31 +721,63 @@
             }
         }
 
-        // LOAD TODAY HISTORY
-        async function loadTodayHistory() {
+        // LOAD TODAY STATUS
+        async function loadTodayStatus() {
             try {
                 const response = await fetch(GAS_URL);
                 const result = await response.json();
 
-                const historyList = document.getElementById('historyList');
+                const statusDiv = document.getElementById('todayStatus');
+                const nama = KARYAWAN[currentUser];
 
                 if (!result.data || result.data.length === 0) {
-                    historyList.innerHTML = '<div class="empty">Belum ada absensi hari ini</div>';
+                    statusDiv.innerHTML = '<div class="empty">Belum ada absensi hari ini</div>';
+                    hasCheckinToday = false;
                     return;
                 }
 
-                historyList.innerHTML = result.data.map(item => `
+                // Cari user hari ini
+                const userToday = result.data.find(item => item.nama === nama);
+
+                if (!userToday) {
+                    statusDiv.innerHTML = '<div class="empty">Belum ada absensi hari ini</div>';
+                    hasCheckinToday = false;
+                    return;
+                }
+
+                hasCheckinToday = !userToday.checkOut; // Belum checkout berarti sudah checkin
+
+                let html = `
                     <div class="history-item">
-                        <div><strong>${item.nama}</strong></div>
-                        <div style="font-size: 11px; color: var(--gray-700);">
-                            IN: ${item.checkIn} 
-                            ${item.checkOut ? '| OUT: ' + item.checkOut : ''}
-                            ${item.durasi ? '| ' + item.durasi + 'h' : ''}
+                        <div class="history-name">${userToday.nama}</div>
+                        <div class="history-time">
+                            ✓ Check In: ${userToday.checkIn}
                         </div>
-                    </div>
-                `).join('');
+                `;
+
+                if (userToday.checkOut) {
+                    html += `
+                        <div class="history-time">
+                            ✗ Check Out: ${userToday.checkOut}
+                        </div>
+                        <div class="history-time">
+                            ⏱ Durasi: ${userToday.durasi} jam
+                        </div>
+                    `;
+                } else {
+                    html += `
+                        <div class="status-badge">Sedang Bekerja</div>
+                    `;
+                }
+
+                html += '</div>';
+                statusDiv.innerHTML = html;
+
+                // Update button state
+                document.getElementById('checkInBtn').disabled = hasCheckinToday;
+
             } catch (error) {
-                console.log('Error loading history:', error);
+                console.log('Error loading status:', error);
             }
         }
 
