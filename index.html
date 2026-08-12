@@ -333,7 +333,7 @@
 
     <script>
         // ===== CONFIG =====
-        const GAS_URL = 'https://script.google.com/macros/s/AKfycbxc7YDPcq_7BUdf_Pdj-CoD41NPDuiCpu5VI2gQsMik_R0xn_AE33rmw1YUgKKKknH8Ag/exec';
+        const GAS_URL = 'https://script.google.com/macros/s/AKfycbwN3FnnbigH0pSCkdtEJrcZ4_YNsuA-0Cs5R4tdYPRXm4FlJYoo_TdxSthB1WHfI92J/exec';
         
         const VALID_USERS = ['mada', 'istri', 'novita', 'dian', 'fara', 'alya'];
         const KARYAWAN = {
@@ -535,7 +535,7 @@
                 }, 500);
                 
             } else {
-                // ===== KLIK 2: JAM PULANG =====
+                // ===== KLIK 2+: JAM PULANG (BISA DIULANG) =====
                 const record = todayAttendance[existingIndex];
                 const jamMasuk = record.jamMasuk;
                 
@@ -565,7 +565,7 @@
                     document.getElementById('photoPreview').style.display = 'none';
                     document.getElementById('photoBtn').classList.remove('has-photo');
                     document.getElementById('photoBtn').textContent = '📷 Ambil Foto';
-                    btn.disabled = true;
+                    btn.disabled = false;  // ← TETAP AKTIF, BISA DIULANG!
                     
                     loadTodayLog();
                     
