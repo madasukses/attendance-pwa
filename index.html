@@ -70,7 +70,7 @@
             margin-bottom: 30px;
         }
 
-        .login-container select {
+        .login-container input {
             width: 100%;
             padding: 12px;
             font-size: 16px;
@@ -79,22 +79,11 @@
             margin-bottom: 20px;
             background: white;
             color: #333;
-            cursor: pointer;
-            -webkit-appearance: none;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23667eea' d='M0 0l6 6 6-6z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 10px center;
-            padding-right: 35px;
         }
 
-        .login-container select:focus {
+        .login-container input:focus {
             outline: none;
             border-color: #667eea;
-        }
-
-        .login-container option {
-            color: #333;
         }
 
         .login-btn {
@@ -440,9 +429,7 @@
         <div class="login-container">
             <h1>📸 Absensi</h1>
             <p>Nosada Farma</p>
-            <select id="karyawanSelect">
-                <option value="">Pilih Nama Karyawan...</option>
-            </select>
+            <input type="text" id="karyawanInput" placeholder="Tulis nama karyawan..." autocomplete="off">
             <button class="login-btn" onclick="loginKaryawan()">Masuk</button>
         </div>
     </div>
@@ -508,9 +495,15 @@
 
         // ==================== INITIALIZATION ====================
         window.addEventListener('DOMContentLoaded', () => {
-            loadKaryawanList();
             updateTanggalHari();
             setInterval(updateTanggalHari, 60000);
+
+            // Enter key untuk login
+            document.getElementById('karyawanInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    loginKaryawan();
+                }
+            });
 
             // Disable pinch zoom
             document.addEventListener('touchmove', (e) => {
@@ -532,53 +525,51 @@
         }
 
         // ==================== LOGIN ====================
-        async function loadKaryawanList() {
+        async function loginKaryawan() {
+            const namaInput = document.getElementById('karyawanInput').value.trim();
+
+            if (!namaInput) {
+                showToast('Tulis nama karyawan terlebih dahulu', 'error');
+                return;
+            }
+
+            // Get rate dari backend
             try {
                 const response = await fetch(`${GAS_URL}?action=getKaryawan`);
                 const result = await response.json();
                 
                 if (result.success && result.data.length > 0) {
-                    const select = document.getElementById('karyawanSelect');
-                    result.data.forEach(k => {
-                        const option = document.createElement('option');
-                        option.value = k.nama;
-                        option.textContent = k.nama;
-                        option.dataset.ratePerJam = k.ratePerJam;
-                        select.appendChild(option);
-                    });
+                    const karyawan = result.data.find(k => 
+                        k.nama.toLowerCase() === namaInput.toLowerCase()
+                    );
+
+                    if (karyawan) {
+                        currentUser = {
+                            nama: karyawan.nama,
+                            ratePerJam: karyawan.ratePerJam,
+                            tanggal: getTodayDate()
+                        };
+
+                        showGreeting();
+                        switchPage('absensi');
+                        startCamera();
+                        loadAbsensiLog();
+                    } else {
+                        showToast(`Nama "${namaInput}" tidak ditemukan di data karyawan`, 'error');
+                    }
+                } else {
+                    showToast('Gagal load data karyawan', 'error');
                 }
             } catch (error) {
-                showToast('Gagal load data karyawan', 'error');
+                showToast('Error: ' + error, 'error');
             }
-        }
-
-        function loginKaryawan() {
-            const select = document.getElementById('karyawanSelect');
-            const nama = select.value;
-
-            if (!nama) {
-                showToast('Pilih nama terlebih dahulu', 'error');
-                return;
-            }
-
-            const option = select.querySelector(`option[value="${nama}"]`);
-            currentUser = {
-                nama: nama,
-                ratePerJam: parseInt(option.dataset.ratePerJam) || 0,
-                tanggal: getTodayDate()
-            };
-
-            showGreeting();
-            switchPage('absensi');
-            startCamera();
-            loadAbsensiLog();
         }
 
         function logout() {
             stopCamera();
             currentUser = null;
             lastPhotoBase64 = null;
-            document.getElementById('karyawanSelect').value = '';
+            document.getElementById('karyawanInput').value = '';
             switchPage('login');
         }
 
