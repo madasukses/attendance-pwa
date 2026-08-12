@@ -54,12 +54,6 @@
             font-weight: 600;
         }
 
-        .header-sub {
-            font-size: 12px;
-            opacity: 0.9;
-            margin-top: 4px;
-        }
-
         .container {
             flex: 1;
             display: flex;
@@ -68,7 +62,7 @@
             padding: 20px;
         }
 
-        /* LOGIN SCREEN */
+        /* LOGIN */
         .login-screen {
             display: flex;
             flex-direction: column;
@@ -137,11 +131,6 @@
             background: var(--primary-dark);
         }
 
-        .btn-primary:disabled {
-            background: var(--gray-300);
-            cursor: not-allowed;
-        }
-
         .btn-logout {
             background: var(--gray-200);
             color: var(--gray-900);
@@ -151,7 +140,7 @@
             margin-top: 20px;
         }
 
-        /* MAIN SCREEN */
+        /* MAIN */
         .main-screen {
             display: none;
         }
@@ -186,12 +175,6 @@
             border: 1px solid #FCA5A5;
         }
 
-        .status-msg.warning {
-            background: #FEF3C7;
-            color: #92400E;
-            border: 1px solid #FCD34D;
-        }
-
         @keyframes slideIn {
             from {
                 opacity: 0;
@@ -223,7 +206,7 @@
             margin-bottom: 4px;
         }
 
-        .greeting-time {
+        .greeting-user {
             font-size: 12px;
             color: var(--gray-700);
         }
@@ -246,10 +229,6 @@
             margin-bottom: 20px;
         }
 
-        .location-info strong {
-            color: var(--gray-900);
-        }
-
         #fotoInput {
             display: none;
         }
@@ -258,7 +237,7 @@
             margin-bottom: 20px;
         }
 
-        .photo-section-label {
+        .photo-label {
             font-size: 12px;
             font-weight: 600;
             color: var(--gray-900);
@@ -290,7 +269,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
-            margin-bottom: 12px;
+            margin-bottom: 20px;
         }
 
         .btn-photo:active {
@@ -302,48 +281,30 @@
             color: white;
         }
 
-        .buttons-group {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-top: 20px;
-        }
-
-        .btn-large {
-            padding: 20px;
-            font-size: 16px;
+        .btn-absensi {
+            width: 100%;
+            padding: 24px;
+            font-size: 18px;
             font-weight: 600;
             border-radius: 12px;
             border: none;
             cursor: pointer;
+            background: var(--primary);
+            color: white;
             transition: all 0.3s;
         }
 
-        .btn-checkin {
-            background: var(--success);
-            color: white;
+        .btn-absensi:active:not(:disabled) {
+            background: var(--primary-dark);
         }
 
-        .btn-checkin:active:not(:disabled) {
-            background: #059669;
-        }
-
-        .btn-checkin:disabled {
+        .btn-absensi:disabled {
             background: var(--gray-300);
             cursor: not-allowed;
             opacity: 0.5;
         }
 
-        .btn-checkout {
-            background: var(--danger);
-            color: white;
-        }
-
-        .btn-checkout:active {
-            background: #dc2626;
-        }
-
-        .history-section {
+        .log-section {
             padding: 16px;
             background: var(--gray-100);
             border-radius: 8px;
@@ -351,51 +312,42 @@
             margin-top: 20px;
         }
 
-        .history-title {
+        .log-title {
             font-weight: 600;
             margin-bottom: 12px;
             color: var(--gray-900);
         }
 
-        .history-item {
-            padding: 8px 0;
-            border-bottom: 1px solid var(--gray-200);
+        .log-item {
+            padding: 12px;
+            background: white;
+            border-radius: 6px;
+            border-left: 4px solid var(--primary);
         }
 
-        .history-item:last-child {
-            border-bottom: none;
-        }
-
-        .history-name {
+        .log-status {
             font-weight: 600;
             color: var(--primary);
+            margin-bottom: 4px;
         }
 
-        .history-time {
+        .log-time {
             font-size: 11px;
             color: var(--gray-700);
-            margin-top: 2px;
+            line-height: 1.6;
+        }
+
+        .log-durasi {
+            font-size: 11px;
+            color: var(--gray-700);
+            margin-top: 4px;
+            font-weight: 500;
         }
 
         .empty {
             text-align: center;
             padding: 20px;
             color: var(--gray-700);
-        }
-
-        .status-badge {
-            display: inline-block;
-            padding: 4px 8px;
-            background: var(--success);
-            color: white;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: 500;
-            margin-top: 8px;
-        }
-
-        .status-badge.checkout {
-            background: var(--gray-300);
         }
     </style>
 </head>
@@ -432,7 +384,7 @@
             <div class="greeting-section">
                 <div class="greeting-icon" id="greetingIcon">👋</div>
                 <div class="greeting-text" id="greetingText">Selamat Pagi</div>
-                <div class="greeting-time" id="userName">User</div>
+                <div class="greeting-user" id="userName">User</div>
                 <div class="clock" id="clock">00:00:00</div>
             </div>
 
@@ -441,30 +393,25 @@
                 📍 Mencari lokasi...
             </div>
 
-            <!-- PHOTO SECTION -->
+            <!-- PHOTO -->
             <div class="photo-section">
-                <div class="photo-section-label">📸 Foto Selfie (Wajib untuk Check In)</div>
+                <div class="photo-label">📸 Foto Selfie</div>
                 <img id="photoPreview" class="photo-preview" style="display: none;">
-                <button class="btn-photo" id="photBtn" onclick="document.getElementById('fotoInput').click()">
+                <button class="btn-photo" id="photoBtn" onclick="document.getElementById('fotoInput').click()">
                     📷 Ambil Foto
                 </button>
                 <input type="file" id="fotoInput" accept="image/*" capture="user">
             </div>
 
-            <!-- BUTTONS -->
-            <div class="buttons-group">
-                <button class="btn-large btn-checkin" id="checkInBtn" onclick="submitCheckin()" disabled>
-                    ✓<br>CHECK IN
-                </button>
-                <button class="btn-large btn-checkout" onclick="submitCheckout()">
-                    ✗<br>CHECK OUT
-                </button>
-            </div>
+            <!-- TOMBOL ABSENSI (SATU-SATUNYA) -->
+            <button class="btn-absensi" id="absensiBtn" onclick="submitAbsensi()" disabled>
+                ✓ ABSENSI
+            </button>
 
-            <!-- STATUS TODAY -->
-            <div class="history-section">
-                <div class="history-title">Status Hari Ini</div>
-                <div id="todayStatus" class="empty">Belum ada data</div>
+            <!-- LOG HARI INI -->
+            <div class="log-section">
+                <div class="log-title">📋 Absensi Hari Ini</div>
+                <div id="todayLog" class="empty">Belum ada absensi</div>
             </div>
 
             <!-- LOGOUT -->
@@ -499,9 +446,9 @@
             if (currentUser) {
                 updateClock();
                 getLocation();
-                loadTodayStatus();
+                loadTodayLog();
                 setInterval(updateClock, 1000);
-                setInterval(loadTodayStatus, 30000);
+                setInterval(loadTodayLog, 30000);
             }
         });
 
@@ -525,9 +472,9 @@
             
             updateClock();
             getLocation();
-            loadTodayStatus();
+            loadTodayLog();
             setInterval(updateClock, 1000);
-            setInterval(loadTodayStatus, 30000);
+            setInterval(loadTodayLog, 30000);
         }
 
         function checkLogin() {
@@ -624,32 +571,31 @@
                     preview.src = currentPhoto;
                     preview.style.display = 'block';
                     
-                    const photoBtn = document.getElementById('photBtn');
+                    const photoBtn = document.getElementById('photoBtn');
                     photoBtn.classList.add('has-photo');
                     photoBtn.textContent = '✓ Foto Tersimpan';
                     
-                    // Enable check in button
-                    document.getElementById('checkInBtn').disabled = false;
+                    // Enable absensi button
+                    document.getElementById('absensiBtn').disabled = false;
                 };
                 reader.readAsDataURL(file);
             });
         }
 
-        // SUBMIT CHECKIN
-        async function submitCheckin() {
+        // SUBMIT ABSENSI (1 TOMBOL - SMART LOGIC)
+        async function submitAbsensi() {
             if (!currentPhoto) {
                 showStatus('Ambil foto terlebih dahulu!', 'error');
                 return;
             }
 
-            const btn = document.getElementById('checkInBtn');
+            const btn = document.getElementById('absensiBtn');
             btn.disabled = true;
-            showStatus('Check In..', 'loading');
+            showStatus('Memproses...', 'loading');
 
             try {
                 const nama = KARYAWAN[currentUser];
                 const payload = {
-                    tipe: 'checkin',
                     nama: nama,
                     latitude: currentLat,
                     longitude: currentLng,
@@ -665,11 +611,24 @@
 
                 if (result.success) {
                     showStatus('✓ ' + result.message, 'success');
-                    hasCheckinToday = true;
-                    btn.disabled = true;
-                    loadTodayStatus();
+                    
+                    if (result.type === 'masuk') {
+                        // Klik 1: Jam Masuk
+                        hasCheckinToday = true;
+                        currentPhoto = null;
+                        document.getElementById('photoPreview').style.display = 'none';
+                        document.getElementById('photoBtn').classList.remove('has-photo');
+                        document.getElementById('photoBtn').textContent = '📷 Ambil Foto';
+                        btn.disabled = false;
+                    } else if (result.type === 'pulang') {
+                        // Klik 2: Jam Pulang
+                        hasCheckinToday = false;
+                        btn.disabled = true;
+                    }
+                    
+                    loadTodayLog();
                 } else {
-                    showStatus('⚠ ' + result.message, 'warning');
+                    showStatus('⚠ ' + result.message, 'error');
                     btn.disabled = false;
                 }
             } catch (error) {
@@ -678,106 +637,58 @@
             }
         }
 
-        // SUBMIT CHECKOUT
-        async function submitCheckout() {
-            if (!hasCheckinToday) {
-                showStatus('Belum check in hari ini!', 'error');
-                return;
-            }
-
-            const btn = event.target;
-            btn.disabled = true;
-            showStatus('Check Out...', 'loading');
-
-            try {
-                const nama = KARYAWAN[currentUser];
-                const payload = {
-                    tipe: 'checkout',
-                    nama: nama,
-                    latitude: currentLat,
-                    longitude: currentLng,
-                    fotoBase64: null
-                };
-
-                const response = await fetch(GAS_URL, {
-                    method: 'POST',
-                    body: JSON.stringify(payload)
-                });
-
-                const result = await response.json();
-
-                if (result.success) {
-                    showStatus('✓ ' + result.message, 'success');
-                    hasCheckinToday = false;
-                    document.getElementById('checkInBtn').disabled = false;
-                    loadTodayStatus();
-                } else {
-                    showStatus('⚠ ' + result.message, 'warning');
-                }
-            } catch (error) {
-                showStatus('Error: ' + error.message, 'error');
-            } finally {
-                btn.disabled = false;
-            }
-        }
-
-        // LOAD TODAY STATUS
-        async function loadTodayStatus() {
+        // LOAD LOG HARI INI
+        async function loadTodayLog() {
             try {
                 const response = await fetch(GAS_URL);
                 const result = await response.json();
 
-                const statusDiv = document.getElementById('todayStatus');
+                const logDiv = document.getElementById('todayLog');
                 const nama = KARYAWAN[currentUser];
 
                 if (!result.data || result.data.length === 0) {
-                    statusDiv.innerHTML = '<div class="empty">Belum ada absensi hari ini</div>';
-                    hasCheckinToday = false;
+                    logDiv.innerHTML = '<div class="empty">Belum ada absensi</div>';
                     return;
                 }
 
-                // Cari user hari ini
-                const userToday = result.data.find(item => item.nama === nama);
+                // Filter hanya user hari ini
+                const userLog = result.data.find(item => item.nama === nama);
 
-                if (!userToday) {
-                    statusDiv.innerHTML = '<div class="empty">Belum ada absensi hari ini</div>';
-                    hasCheckinToday = false;
+                if (!userLog) {
+                    logDiv.innerHTML = '<div class="empty">Belum ada absensi</div>';
                     return;
                 }
-
-                hasCheckinToday = !userToday.checkOut; // Belum checkout berarti sudah checkin
 
                 let html = `
-                    <div class="history-item">
-                        <div class="history-name">${userToday.nama}</div>
-                        <div class="history-time">
-                            ✓ Check In: ${userToday.checkIn}
+                    <div class="log-item">
+                        <div class="log-status">1x Absen</div>
+                        <div class="log-time">
+                            🔵 Jam Masuk: ${userLog.jamMasuk}
                         </div>
                 `;
 
-                if (userToday.checkOut) {
+                if (userLog.jamPulang) {
                     html += `
-                        <div class="history-time">
-                            ✗ Check Out: ${userToday.checkOut}
+                        <div class="log-time">
+                            🔴 Jam Pulang: ${userLog.jamPulang}
                         </div>
-                        <div class="history-time">
-                            ⏱ Durasi: ${userToday.durasi} jam
+                        <div class="log-durasi">
+                            ⏱ Durasi: ${userLog.durasi} jam | Gaji: Rp ${userLog.gaji.toLocaleString('id-ID')}
                         </div>
                     `;
                 } else {
                     html += `
-                        <div class="status-badge">Sedang Bekerja</div>
+                        <div class="log-time">
+                            ⏳ (Belum pulang)
+                        </div>
                     `;
                 }
 
                 html += '</div>';
-                statusDiv.innerHTML = html;
-
-                // Update button state
-                document.getElementById('checkInBtn').disabled = hasCheckinToday;
+                logDiv.innerHTML = html;
 
             } catch (error) {
-                console.log('Error loading status:', error);
+                console.log('Error loading log:', error);
             }
         }
 
