@@ -2,9 +2,9 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#1B8A3E">
-    <title>Attendance - Nosada Farma</title>
+    <title>Attendance App - Nosada Farma</title>
     <link rel="manifest" href="manifest.json">
     <style>
         * {
@@ -13,418 +13,328 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --primary: #1B8A3E;
-            --primary-dark: #0F6A2E;
-            --success: #10B981;
-            --danger: #EF4444;
-            --gray-100: #F3F4F6;
-            --gray-200: #E5E7EB;
-            --gray-300: #D1D5DB;
-            --gray-700: #374151;
-            --gray-900: #111827;
-        }
-
-        html, body {
-            height: 100%;
-            width: 100%;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #fff;
-            color: var(--gray-900);
-        }
-
         body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1B8A3E 0%, #0d5c2a 100%);
+            min-height: 100vh;
             display: flex;
-            flex-direction: column;
-            padding-top: max(12px, env(safe-area-inset-top));
-        }
-
-        .header {
-            background: var(--primary);
-            color: white;
-            padding: 16px 20px;
-            text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-
-        .header h1 {
-            font-size: 18px;
-            font-weight: 600;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
 
         .container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-            padding: 20px;
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
         }
 
-        /* LOGIN */
-        .login-screen {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
+        .header {
+            background: linear-gradient(135deg, #1B8A3E 0%, #0d5c2a 100%);
+            color: white;
+            padding: 30px 20px;
             text-align: center;
         }
 
-        .login-box {
-            width: 100%;
-            max-width: 300px;
-        }
-
-        .login-icon {
-            font-size: 48px;
-            margin-bottom: 16px;
-        }
-
-        .login-title {
-            font-size: 20px;
-            font-weight: 600;
+        .header h1 {
+            font-size: 24px;
             margin-bottom: 8px;
         }
 
-        .login-subtitle {
+        .header p {
             font-size: 13px;
-            color: var(--gray-700);
-            margin-bottom: 24px;
+            opacity: 0.9;
         }
 
-        .login-input {
+        .login-screen, .app-screen {
+            padding: 30px 20px;
+        }
+
+        .login-screen {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .login-screen input {
             width: 100%;
-            padding: 14px;
-            border: 1px solid var(--gray-300);
-            border-radius: 8px;
-            font-size: 14px;
-            margin-bottom: 12px;
-            font-family: inherit;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.2s;
         }
 
-        .login-input:focus {
+        .login-screen input:focus {
             outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(27, 138, 62, 0.1);
+            border-color: #1B8A3E;
         }
 
         .btn {
-            padding: 14px 20px;
+            padding: 12px 20px;
             border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
+            border-radius: 10px;
+            font-size: 16px;
             cursor: pointer;
-            transition: all 0.3s;
-            width: 100%;
+            transition: all 0.2s;
+            font-weight: 600;
         }
 
         .btn-primary {
-            background: var(--primary);
+            background: linear-gradient(135deg, #1B8A3E 0%, #0d5c2a 100%);
             color: white;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(27, 138, 62, 0.3);
         }
 
         .btn-primary:active {
-            background: var(--primary-dark);
+            transform: translateY(0);
         }
 
-        .btn-logout {
-            background: var(--gray-200);
-            color: var(--gray-900);
-            font-size: 12px;
-            padding: 8px 12px;
-            width: auto;
-            margin-top: 20px;
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
         }
 
-        /* MAIN */
-        .main-screen {
-            display: none;
-        }
-
-        .main-screen.active {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .status-msg {
-            padding: 12px 16px;
-            margin-bottom: 16px;
-            border-radius: 8px;
-            font-size: 13px;
-            display: none;
-            animation: slideIn 0.3s;
-        }
-
-        .status-msg.show {
-            display: block;
-        }
-
-        .status-msg.success {
-            background: #DCFCE7;
-            color: #166534;
-            border: 1px solid #86EFAC;
-        }
-
-        .status-msg.error {
-            background: #FEE2E2;
-            color: #991B1B;
-            border: 1px solid #FCA5A5;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .greeting-section {
+        .greeting {
             text-align: center;
-            padding: 24px 20px;
-            background: linear-gradient(135deg, #f5f5f5 0%, #fafafa 100%);
-            border-radius: 8px;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 10px;
             margin-bottom: 20px;
         }
 
-        .greeting-icon {
-            font-size: 48px;
-            margin-bottom: 12px;
-        }
-
-        .greeting-text {
-            font-size: 24px;
-            font-weight: 600;
-            color: var(--gray-900);
-            margin-bottom: 4px;
-        }
-
-        .greeting-user {
-            font-size: 12px;
-            color: var(--gray-700);
+        .greeting h2 {
+            color: #1B8A3E;
+            font-size: 18px;
+            margin-bottom: 5px;
         }
 
         .clock {
-            font-size: 36px;
-            font-weight: 300;
-            letter-spacing: 2px;
-            font-variant-numeric: tabular-nums;
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
             font-family: 'Courier New', monospace;
-            margin-top: 8px;
+            margin: 10px 0;
         }
 
         .location-info {
-            padding: 12px;
-            background: var(--gray-100);
-            border-radius: 8px;
             font-size: 12px;
-            color: var(--gray-700);
+            color: #666;
+            margin-top: 8px;
+        }
+
+        .photo-section {
+            display: flex;
+            gap: 10px;
             margin-bottom: 20px;
+        }
+
+        .photo-preview {
+            width: 100px;
+            height: 100px;
+            background: #f5f5f5;
+            border-radius: 10px;
+            display: none;
+            overflow: hidden;
+        }
+
+        .photo-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .btn-photo {
+            flex: 1;
+            background: #FF9800;
+            color: white;
+        }
+
+        .btn-photo:hover {
+            background: #F57C00;
+        }
+
+        .btn-photo.has-photo {
+            background: #4CAF50;
+        }
+
+        .btn-absensi {
+            width: 100%;
+            background: linear-gradient(135deg, #1B8A3E 0%, #0d5c2a 100%);
+            color: white;
+            font-size: 18px;
+            padding: 16px;
+            margin-bottom: 15px;
+        }
+
+        .log-section {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .log-section h3 {
+            color: #333;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .log-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #1B8A3E;
+        }
+
+        .log-status {
+            font-weight: 600;
+            color: #1B8A3E;
+            margin-bottom: 8px;
+        }
+
+        .log-time {
+            color: #666;
+            font-size: 13px;
+            margin: 5px 0;
+        }
+
+        .log-durasi {
+            color: #1B8A3E;
+            font-weight: 600;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        .empty {
+            text-align: center;
+            color: #999;
+            font-size: 13px;
+            padding: 20px;
+        }
+
+        .status-msg {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            max-width: 460px;
+            padding: 15px 20px;
+            border-radius: 10px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .status-msg.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .status-msg.success {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .status-msg.error {
+            background: #f44336;
+            color: white;
+        }
+
+        .status-msg.loading {
+            background: #2196F3;
+            color: white;
+        }
+
+        .btn-logout {
+            width: 100%;
+            background: #e0e0e0;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .btn-logout:hover {
+            background: #d0d0d0;
         }
 
         #fotoInput {
             display: none;
         }
 
-        .photo-section {
-            margin-bottom: 20px;
+        .app-screen {
+            display: none;
         }
 
-        .photo-label {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--gray-900);
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+        .app-screen.show {
+            display: block;
         }
 
-        .photo-preview {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-bottom: 8px;
-            border: 2px solid var(--gray-300);
-        }
-
-        .photo-preview.has-image {
-            border-color: var(--success);
-        }
-
-        .btn-photo {
-            width: 100%;
-            padding: 16px;
-            background: var(--gray-200);
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-bottom: 20px;
-        }
-
-        .btn-photo:active {
-            background: var(--gray-300);
-        }
-
-        .btn-photo.has-photo {
-            background: var(--success);
-            color: white;
-        }
-
-        .btn-absensi {
-            width: 100%;
-            padding: 24px;
-            font-size: 18px;
-            font-weight: 600;
-            border-radius: 12px;
-            border: none;
-            cursor: pointer;
-            background: var(--primary);
-            color: white;
-            transition: all 0.3s;
-        }
-
-        .btn-absensi:active:not(:disabled) {
-            background: var(--primary-dark);
-        }
-
-        .btn-absensi:disabled {
-            background: var(--gray-300);
-            cursor: not-allowed;
-            opacity: 0.5;
-        }
-
-        .log-section {
-            padding: 16px;
-            background: var(--gray-100);
-            border-radius: 8px;
-            font-size: 12px;
-            margin-top: 20px;
-        }
-
-        .log-title {
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: var(--gray-900);
-        }
-
-        .log-item {
-            padding: 12px;
-            background: white;
-            border-radius: 6px;
-            border-left: 4px solid var(--primary);
-        }
-
-        .log-status {
-            font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 4px;
-        }
-
-        .log-time {
-            font-size: 11px;
-            color: var(--gray-700);
-            line-height: 1.6;
-        }
-
-        .log-durasi {
-            font-size: 11px;
-            color: var(--gray-700);
-            margin-top: 4px;
-            font-weight: 500;
-        }
-
-        .empty {
-            text-align: center;
-            padding: 20px;
-            color: var(--gray-700);
+        .login-screen.hide {
+            display: none;
         }
     </style>
 </head>
 <body>
-    <!-- LOGIN SCREEN -->
-    <div id="loginScreen" class="login-screen">
-        <div class="login-box">
-            <div class="login-icon">🏢</div>
-            <div class="login-title">Nosada Farma</div>
-            <div class="login-subtitle">Sistem Absensi</div>
-            
-            <input 
-                type="text" 
-                id="usernameInput" 
-                class="login-input" 
-                placeholder="Username"
-                autocomplete="off"
-            >
-            
-            <button class="btn btn-primary" onclick="login()">Masuk</button>
-        </div>
-    </div>
-
-    <!-- MAIN SCREEN -->
-    <div id="mainScreen" class="main-screen">
+    <div class="container">
         <div class="header">
-            <h1>📍 Attendance Nosada</h1>
+            <h1>📋 Absensi Nosada</h1>
+            <p>Attendance System</p>
         </div>
 
-        <div class="container">
-            <div id="statusMsg" class="status-msg"></div>
+        <!-- LOGIN SCREEN -->
+        <div class="login-screen">
+            <input type="text" id="usernameInput" placeholder="Username" autofocus>
+            <button class="btn btn-primary" onclick="login()">Login</button>
+        </div>
 
-            <!-- GREETING -->
-            <div class="greeting-section">
-                <div class="greeting-icon" id="greetingIcon">👋</div>
-                <div class="greeting-text" id="greetingText">Selamat Pagi</div>
-                <div class="greeting-user" id="userName">User</div>
+        <!-- APP SCREEN -->
+        <div class="app-screen">
+            <div class="greeting">
+                <h2 id="greetingText">Selamat Pagi</h2>
                 <div class="clock" id="clock">00:00:00</div>
+                <div class="location-info" id="locationInfo">🔄 Deteksi lokasi...</div>
             </div>
 
-            <!-- LOCATION -->
-            <div class="location-info" id="locationInfo">
-                📍 Mencari lokasi...
-            </div>
-
-            <!-- PHOTO -->
             <div class="photo-section">
-                <div class="photo-label">📸 Foto Selfie</div>
-                <img id="photoPreview" class="photo-preview" style="display: none;">
-                <button class="btn-photo" id="photoBtn" onclick="document.getElementById('fotoInput').click()">
-                    📷 Ambil Foto
-                </button>
-                <input type="file" id="fotoInput" accept="image/*" capture="user">
+                <button class="btn btn-photo" id="photoBtn" onclick="triggerPhotoInput()">📷 Ambil Foto</button>
+                <div class="photo-preview" id="photoPreview">
+                    <img id="photoImg" src="">
+                </div>
             </div>
 
-            <!-- TOMBOL ABSENSI (SATU-SATUNYA) -->
-            <button class="btn-absensi" id="absensiBtn" onclick="submitAbsensi()" disabled>
-                ✓ ABSENSI
-            </button>
+            <button class="btn btn-absensi" id="absensiBtn" onclick="submitAbsensi()">ABSENSI</button>
 
-            <!-- LOG HARI INI -->
             <div class="log-section">
-                <div class="log-title">📋 Absensi Hari Ini</div>
-                <div id="todayLog" class="empty">Belum ada absensi</div>
+                <h3>📊 Log Hari Ini</h3>
+                <div id="todayLog" class="empty">Memuat...</div>
             </div>
 
-            <!-- LOGOUT -->
             <button class="btn btn-logout" onclick="logout()">Keluar</button>
         </div>
     </div>
 
-    <!-- Hidden iframe untuk form submission -->
+    <!-- Hidden iframe untuk form submission ke GAS -->
     <iframe name="gas-iframe" style="display:none;"></iframe>
 
+    <!-- Hidden file input -->
+    <input type="file" id="fotoInput" accept="image/*" capture="environment">
+
+    <!-- Status message -->
+    <div class="status-msg" id="statusMsg"></div>
+
     <script>
-        // CONFIG
+        // ===== CONFIG =====
         const GAS_URL = 'https://script.google.com/macros/s/AKfycbxc7YDPcq_7BUdf_Pdj-CoD41NPDuiCpu5VI2gQsMik_R0xn_AE33rmw1YUgKKKknH8Ag/exec';
+        
         const VALID_USERS = ['mada', 'istri', 'novita', 'dian', 'fara', 'alya'];
         const KARYAWAN = {
             'mada': 'Mada',
@@ -437,12 +347,11 @@
 
         let currentUser = null;
         let currentPhoto = null;
-        let currentLat = null;
-        let currentLng = null;
-        let hasCheckinToday = false;
+        let currentLat = 0;
+        let currentLng = 0;
 
-        // INIT
-        document.addEventListener('DOMContentLoaded', function() {
+        // ===== INIT =====
+        window.addEventListener('load', () => {
             checkLogin();
             setupPhotoInput();
             
@@ -455,7 +364,7 @@
             }
         });
 
-        // LOGIN
+        // ===== LOGIN =====
         function login() {
             const username = document.getElementById('usernameInput').value.trim().toLowerCase();
             
@@ -491,58 +400,44 @@
         }
 
         function logout() {
-            if (confirm('Keluar dari aplikasi?')) {
-                localStorage.removeItem('currentUser');
-                currentUser = null;
-                showLoginScreen(true);
-                document.getElementById('usernameInput').value = '';
-            }
+            localStorage.removeItem('currentUser');
+            currentUser = null;
+            currentPhoto = null;
+            showLoginScreen(true);
+            document.getElementById('usernameInput').value = '';
+            document.getElementById('usernameInput').focus();
         }
 
         function showLoginScreen(show) {
-            document.getElementById('loginScreen').style.display = show ? 'flex' : 'none';
-            document.getElementById('mainScreen').classList.toggle('active', !show);
+            document.querySelector('.login-screen').classList.toggle('hide', !show);
+            document.querySelector('.app-screen').classList.toggle('show', !show);
         }
 
-        // GREETING
-        function getGreeting() {
-            const hour = new Date().getHours();
-            const userName = KARYAWAN[currentUser];
-            
-            let greeting = '';
-            let icon = '';
-            
-            if (hour >= 5 && hour < 12) {
-                greeting = 'Selamat Pagi';
-                icon = '🌅';
-            } else if (hour >= 12 && hour < 15) {
-                greeting = 'Selamat Siang';
-                icon = '☀️';
-            } else if (hour >= 15 && hour < 18) {
-                greeting = 'Selamat Sore';
-                icon = '🌤️';
-            } else {
-                greeting = 'Selamat Malam';
-                icon = '🌙';
-            }
-            
-            document.getElementById('greetingIcon').textContent = icon;
-            document.getElementById('greetingText').textContent = greeting;
-            document.getElementById('userName').textContent = userName;
-        }
-
-        // CLOCK
+        // ===== CLOCK & GREETING =====
         function updateClock() {
             const now = new Date();
             const hours = String(now.getHours()).padStart(2, '0');
             const mins = String(now.getMinutes()).padStart(2, '0');
             const secs = String(now.getSeconds()).padStart(2, '0');
+            
             document.getElementById('clock').textContent = `${hours}:${mins}:${secs}`;
             
             getGreeting();
         }
 
-        // LOCATION
+        function getGreeting() {
+            const hour = new Date().getHours();
+            let greeting = 'Selamat Pagi';
+            
+            if (hour >= 12 && hour < 15) greeting = 'Selamat Siang';
+            else if (hour >= 15 && hour < 18) greeting = 'Selamat Sore';
+            else if (hour >= 18) greeting = 'Selamat Malam';
+            
+            const nama = KARYAWAN[currentUser] || 'Guest';
+            document.getElementById('greetingText').textContent = `${greeting}, ${nama}`;
+        }
+
+        // ===== LOCATION =====
         function getLocation() {
             if (!navigator.geolocation) return;
 
@@ -561,31 +456,35 @@
             );
         }
 
-        // PHOTO INPUT
+        // ===== PHOTO INPUT =====
         function setupPhotoInput() {
             document.getElementById('fotoInput').addEventListener('change', function(e) {
                 const file = e.target.files[0];
                 if (!file) return;
 
                 const reader = new FileReader();
-                reader.onload = function(event) {
+                reader.onload = (event) => {
                     currentPhoto = event.target.result;
+                    
                     const preview = document.getElementById('photoPreview');
-                    preview.src = currentPhoto;
+                    const img = document.getElementById('photoImg');
+                    
+                    img.src = currentPhoto;
                     preview.style.display = 'block';
                     
-                    const photoBtn = document.getElementById('photoBtn');
-                    photoBtn.classList.add('has-photo');
-                    photoBtn.textContent = '✓ Foto Tersimpan';
-                    
-                    // Enable absensi button
-                    document.getElementById('absensiBtn').disabled = false;
+                    document.getElementById('photoBtn').classList.add('has-photo');
+                    document.getElementById('photoBtn').textContent = '✓ Foto OK';
                 };
+                
                 reader.readAsDataURL(file);
             });
         }
 
-        // SUBMIT ABSENSI via FORM (bypass CORS)
+        function triggerPhotoInput() {
+            document.getElementById('fotoInput').click();
+        }
+
+        // ===== SUBMIT ABSENSI (1 TOMBOL - SMART LOGIC) =====
         function submitAbsensi() {
             if (!currentPhoto) {
                 showStatus('Ambil foto terlebih dahulu!', 'error');
@@ -597,8 +496,87 @@
             showStatus('Memproses...', 'loading');
 
             const nama = KARYAWAN[currentUser];
+            const now = new Date();
+            const waktu = String(now.getHours()).padStart(2, '0') + ':' + 
+                         String(now.getMinutes()).padStart(2, '0') + ':' +
+                         String(now.getSeconds()).padStart(2, '0');
             
-            // Buat form hidden
+            const todayAttendance = JSON.parse(localStorage.getItem('todayAttendance') || '[]');
+            
+            // Cari record user hari ini
+            const existingIndex = todayAttendance.findIndex(item => item.nama === nama);
+            
+            if (existingIndex === -1) {
+                // ===== KLIK 1: JAM MASUK =====
+                todayAttendance.push({
+                    nama: nama,
+                    jamMasuk: waktu,
+                    jamPulang: '',
+                    durasi: 0,
+                    gaji: 0
+                });
+                
+                localStorage.setItem('todayAttendance', JSON.stringify(todayAttendance));
+                
+                setTimeout(() => {
+                    showStatus('✓ Jam Masuk: ' + waktu, 'success');
+                    
+                    // Reset foto
+                    currentPhoto = null;
+                    document.getElementById('photoPreview').style.display = 'none';
+                    document.getElementById('photoBtn').classList.remove('has-photo');
+                    document.getElementById('photoBtn').textContent = '📷 Ambil Foto';
+                    btn.disabled = false;
+                    
+                    loadTodayLog();
+                    
+                    // Submit ke GAS untuk backup (background)
+                    submitToGAS(nama, waktu);
+                }, 500);
+                
+            } else {
+                // ===== KLIK 2: JAM PULANG =====
+                const record = todayAttendance[existingIndex];
+                const jamMasuk = record.jamMasuk;
+                
+                // Hitung durasi
+                const [hm, mm, sm] = jamMasuk.split(':').map(Number);
+                const [hp, mp, sp] = waktu.split(':').map(Number);
+                
+                const masuk = hm * 3600 + mm * 60 + sm;
+                const pulang = hp * 3600 + mp * 60 + sp;
+                const durasiDetik = pulang - masuk;
+                const durasi = Math.round((durasiDetik / 3600) * 100) / 100;
+                
+                const gajiPerJam = 30000;
+                const gaji = durasi * gajiPerJam;
+                
+                // Update record
+                record.jamPulang = waktu;
+                record.durasi = durasi;
+                record.gaji = gaji;
+                
+                localStorage.setItem('todayAttendance', JSON.stringify(todayAttendance));
+                
+                setTimeout(() => {
+                    showStatus('✓ Jam Pulang: ' + waktu + ' (' + durasi + 'h)', 'success');
+                    
+                    currentPhoto = null;
+                    document.getElementById('photoPreview').style.display = 'none';
+                    document.getElementById('photoBtn').classList.remove('has-photo');
+                    document.getElementById('photoBtn').textContent = '📷 Ambil Foto';
+                    btn.disabled = true;
+                    
+                    loadTodayLog();
+                    
+                    // Submit ke GAS untuk backup (background)
+                    submitToGAS(nama, waktu);
+                }, 500);
+            }
+        }
+
+        // ===== SUBMIT KE GAS (background, form submission) =====
+        function submitToGAS(nama, waktu) {
             const form = document.createElement('form');
             form.method = 'POST';
             form.action = GAS_URL;
@@ -617,82 +595,57 @@
 
             form.appendChild(input);
             document.body.appendChild(form);
-
-            // Submit & tunggu response
             form.submit();
-
-            // Hapus form
+            
             setTimeout(() => {
                 document.body.removeChild(form);
-                showStatus('✓ Absensi tercatat', 'success');
-                
-                // Reset form
-                currentPhoto = null;
-                document.getElementById('photoPreview').style.display = 'none';
-                document.getElementById('photoBtn').classList.remove('has-photo');
-                document.getElementById('photoBtn').textContent = '📷 Ambil Foto';
-                btn.disabled = false;
-                
-                loadTodayLog();
             }, 1000);
         }
 
-        // LOAD LOG HARI INI
-        async function loadTodayLog() {
-            try {
-                const response = await fetch(GAS_URL);
-                const result = await response.json();
+        // ===== LOAD TODAY LOG (dari localStorage) =====
+        function loadTodayLog() {
+            const logDiv = document.getElementById('todayLog');
+            const nama = KARYAWAN[currentUser];
+            const todayAttendance = JSON.parse(localStorage.getItem('todayAttendance') || '[]');
 
-                const logDiv = document.getElementById('todayLog');
-                const nama = KARYAWAN[currentUser];
+            // Filter hanya user hari ini
+            const userLog = todayAttendance.find(item => item.nama === nama);
 
-                if (!result.data || result.data.length === 0) {
-                    logDiv.innerHTML = '<div class="empty">Belum ada absensi</div>';
-                    return;
-                }
-
-                // Filter hanya user hari ini
-                const userLog = result.data.find(item => item.nama === nama);
-
-                if (!userLog) {
-                    logDiv.innerHTML = '<div class="empty">Belum ada absensi</div>';
-                    return;
-                }
-
-                let html = `
-                    <div class="log-item">
-                        <div class="log-status">1x Absen</div>
-                        <div class="log-time">
-                            🔵 Jam Masuk: ${userLog.jamMasuk}
-                        </div>
-                `;
-
-                if (userLog.jamPulang) {
-                    html += `
-                        <div class="log-time">
-                            🔴 Jam Pulang: ${userLog.jamPulang}
-                        </div>
-                        <div class="log-durasi">
-                            ⏱ Durasi: ${userLog.durasi} jam | Gaji: Rp ${userLog.gaji.toLocaleString('id-ID')}
-                        </div>
-                    `;
-                } else {
-                    html += `
-                        <div class="log-time">
-                            ⏳ (Belum pulang)
-                        </div>
-                    `;
-                }
-
-                html += '</div>';
-                logDiv.innerHTML = html;
-
-            } catch (error) {
-                console.log('Error loading log:', error);
+            if (!userLog) {
+                logDiv.innerHTML = '<div class="empty">Belum ada absensi</div>';
+                return;
             }
+
+            let html = `
+                <div class="log-item">
+                    <div class="log-status">✓ 1x Absen</div>
+                    <div class="log-time">
+                        🔵 Jam Masuk: ${userLog.jamMasuk}
+                    </div>
+            `;
+
+            if (userLog.jamPulang) {
+                html += `
+                    <div class="log-time">
+                        🔴 Jam Pulang: ${userLog.jamPulang}
+                    </div>
+                    <div class="log-durasi">
+                        ⏱ Durasi: ${userLog.durasi} jam | Gaji: Rp ${userLog.gaji.toLocaleString('id-ID')}
+                    </div>
+                `;
+            } else {
+                html += `
+                    <div class="log-time">
+                        ⏳ Sedang bekerja...
+                    </div>
+                `;
+            }
+
+            html += '</div>';
+            logDiv.innerHTML = html;
         }
 
-        // STATUS MESSAGE
+        // ===== STATUS MESSAGE =====
         function showStatus(msg, type) {
             const el = document.getElementById('statusMsg');
             el.textContent = msg;
@@ -703,6 +656,13 @@
                     el.classList.remove('show');
                 }, 3000);
             }
+        }
+    </script>
+
+    <!-- PWA Service Worker (optional) -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').catch(() => {});
         }
     </script>
 </body>
