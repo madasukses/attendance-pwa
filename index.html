@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#1B8A3E">
-    <meta name="description" content="Attendance Pro - Checkin dengan GPS dan Foto">
-    <title>Attendance Pro</title>
+    <title>Attendance - Nosada Farma</title>
     <link rel="manifest" href="manifest.json">
     <style>
         * {
@@ -38,27 +37,27 @@
             display: flex;
             flex-direction: column;
             padding-top: max(12px, env(safe-area-inset-top));
-            padding-bottom: env(safe-area-inset-bottom);
         }
 
         .header {
             background: var(--primary);
             color: white;
             padding: 16px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            text-align: center;
             position: sticky;
             top: 0;
             z-index: 10;
         }
 
-        .header-title {
-            display: flex;
-            align-items: center;
-            gap: 12px;
+        .header h1 {
             font-size: 18px;
             font-weight: 600;
+        }
+
+        .header-user {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-top: 4px;
         }
 
         .container {
@@ -66,154 +65,72 @@
             display: flex;
             flex-direction: column;
             overflow-y: auto;
-            padding-bottom: 60px;
+            padding: 20px;
         }
 
-        .clock-section {
-            padding: 32px 20px;
+        /* LOGIN SCREEN */
+        .login-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
             text-align: center;
-            background: linear-gradient(135deg, #f5f5f5 0%, #fafafa 100%);
         }
 
-        .clock {
-            font-size: 56px;
-            font-weight: 300;
-            letter-spacing: 2px;
-            font-variant-numeric: tabular-nums;
-            color: var(--gray-900);
-            font-family: 'Courier New', monospace;
+        .login-box {
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .login-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .login-title {
+            font-size: 20px;
+            font-weight: 600;
             margin-bottom: 8px;
         }
 
-        .date {
-            font-size: 14px;
-            color: var(--gray-700);
-        }
-
-        .location-card {
-            margin: 20px 16px;
-            padding: 16px;
-            background: white;
-            border: 1px solid var(--gray-200);
-            border-radius: 8px;
-            display: flex;
-            gap: 12px;
-        }
-
-        .location-icon {
-            width: 48px;
-            height: 48px;
-            background: var(--gray-100);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary);
-            font-size: 24px;
-            flex-shrink: 0;
-        }
-
-        .location-info {
-            flex: 1;
-        }
-
-        .location-label {
-            font-size: 11px;
-            color: var(--gray-700);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 4px;
-        }
-
-        .location-name {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--gray-900);
-        }
-
-        .status-badge {
-            background: var(--success);
-            color: white;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: 500;
-            margin-top: 4px;
-            display: inline-block;
-        }
-
-        .input-section {
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .input-label {
+        .login-subtitle {
             font-size: 13px;
-            font-weight: 500;
             color: var(--gray-700);
+            margin-bottom: 24px;
         }
 
-        input[type="text"],
-        select,
-        textarea {
-            padding: 12px 14px;
+        .login-input {
+            width: 100%;
+            padding: 14px;
             border: 1px solid var(--gray-300);
             border-radius: 8px;
             font-size: 14px;
+            margin-bottom: 12px;
             font-family: inherit;
         }
 
-        input[type="text"]:focus,
-        select:focus,
-        textarea:focus {
+        .login-input:focus {
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(27, 138, 62, 0.1);
         }
 
-        textarea {
-            resize: vertical;
-            min-height: 60px;
-        }
-
-        #fotoInput {
-            display: none;
-        }
-
-        .photo-preview {
-            width: 100%;
-            max-height: 200px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-top: 8px;
-        }
-
         .btn {
             padding: 14px 20px;
             border: none;
-            border-radius: 12px;
+            border-radius: 8px;
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+            width: 100%;
         }
 
         .btn-primary {
             background: var(--primary);
             color: white;
-            width: 100%;
         }
 
         .btn-primary:active {
@@ -225,64 +142,31 @@
             cursor: not-allowed;
         }
 
-        .btn-secondary {
+        .btn-logout {
             background: var(--gray-200);
             color: var(--gray-900);
-            width: 100%;
-        }
-
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: white;
-            border-top: 1px solid var(--gray-200);
-            display: flex;
-            justify-content: space-around;
-            padding-bottom: env(safe-area-inset-bottom);
-            z-index: 20;
-        }
-
-        .nav-item {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 12px 8px;
-            color: var(--gray-700);
-            background: none;
-            border: none;
-            border-top: 3px solid transparent;
-            cursor: pointer;
             font-size: 12px;
-            transition: all 0.3s;
+            padding: 8px 12px;
+            width: auto;
         }
 
-        .nav-item.active {
-            color: var(--primary);
-            border-top-color: var(--primary);
-        }
-
-        .tab-content {
+        /* MAIN SCREEN */
+        .main-screen {
             display: none;
-            flex: 1;
-            overflow-y: auto;
         }
 
-        .tab-content.active {
+        .main-screen.active {
             display: flex;
             flex-direction: column;
         }
 
         .status-msg {
             padding: 12px 16px;
-            margin: 16px;
+            margin-bottom: 16px;
             border-radius: 8px;
             font-size: 13px;
             display: none;
-            animation: slideIn 0.3s ease-out;
+            animation: slideIn 0.3s;
         }
 
         .status-msg.show {
@@ -301,12 +185,6 @@
             border: 1px solid #FCA5A5;
         }
 
-        .status-msg.loading {
-            background: #DBEAFE;
-            color: #1E40AF;
-            border: 1px solid #93C5FD;
-        }
-
         @keyframes slideIn {
             from {
                 opacity: 0;
@@ -318,174 +196,317 @@
             }
         }
 
-        .history-list {
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
+        .clock-section {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f5f5 0%, #fafafa 100%);
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .clock {
+            font-size: 48px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            font-variant-numeric: tabular-nums;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 8px;
+        }
+
+        .date {
+            font-size: 12px;
+            color: var(--gray-700);
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--gray-700);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--gray-300);
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(27, 138, 62, 0.1);
+        }
+
+        .buttons-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 12px;
+            margin-top: 20px;
+        }
+
+        .btn-large {
+            padding: 20px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-checkin {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-checkin:active {
+            background: #059669;
+        }
+
+        .btn-checkout {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-checkout:active {
+            background: #dc2626;
+        }
+
+        #fotoInput {
+            display: none;
+        }
+
+        .photo-preview {
+            width: 100%;
+            max-height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-top: 8px;
+        }
+
+        .location-info {
+            padding: 12px;
+            background: var(--gray-100);
+            border-radius: 8px;
+            font-size: 12px;
+            color: var(--gray-700);
+            margin-bottom: 16px;
+        }
+
+        .location-info strong {
+            color: var(--gray-900);
+        }
+
+        .history-section {
+            padding: 16px;
+            background: var(--gray-100);
+            border-radius: 8px;
+            font-size: 12px;
         }
 
         .history-item {
-            padding: 12px;
-            background: white;
-            border: 1px solid var(--gray-200);
-            border-radius: 8px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
         }
 
         .history-time {
             font-weight: 600;
             color: var(--primary);
-            font-size: 14px;
         }
 
-        .history-name {
-            font-size: 13px;
-            color: var(--gray-700);
-            margin-top: 4px;
-        }
-
-        .empty-state {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 40px 20px;
-            color: var(--gray-700);
+        .empty {
             text-align: center;
-            flex: 1;
+            padding: 20px;
+            color: var(--gray-700);
         }
 
-        .empty-icon {
-            font-size: 48px;
-            margin-bottom: 12px;
-            opacity: 0.5;
+        .logout-btn-wrapper {
+            margin-top: 20px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="header-title">
-            <span>📍 Attendance Pro</span>
+    <!-- LOGIN SCREEN -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-box">
+            <div class="login-icon">🏢</div>
+            <div class="login-title">Nosada Farma</div>
+            <div class="login-subtitle">Sistem Absensi</div>
+            
+            <input 
+                type="text" 
+                id="usernameInput" 
+                class="login-input" 
+                placeholder="Username"
+                autocomplete="off"
+            >
+            
+            <button class="btn btn-primary" onclick="login()">Masuk</button>
         </div>
     </div>
 
-    <div id="statusMsg" class="status-msg"></div>
+    <!-- MAIN SCREEN -->
+    <div id="mainScreen" class="main-screen">
+        <div class="header">
+            <h1>📍 Attendance Nosada</h1>
+            <div class="header-user" id="userDisplay">User</div>
+        </div>
 
-    <div class="container">
-        <div id="homeTab" class="tab-content active">
+        <div class="container">
+            <div id="statusMsg" class="status-msg"></div>
+
             <div class="clock-section">
                 <div class="clock" id="clock">00:00:00</div>
                 <div class="date" id="dateDisplay">Senin, 1 Januari 2024</div>
             </div>
 
-            <div class="location-card">
-                <div class="location-icon">📍</div>
-                <div class="location-info">
-                    <div class="location-label">LOKASI SAAT INI</div>
-                    <div class="location-name" id="locationName">Memuat lokasi...</div>
-                    <div class="status-badge" id="locationStatus">Mencari GPS</div>
-                </div>
+            <div class="location-info" id="locationInfo">
+                📍 Mencari lokasi...
             </div>
 
-            <div class="input-section">
-                <div class="input-group">
-                    <label class="input-label">Nama</label>
-                    <input type="text" id="namaInput" placeholder="Nama lengkap">
-                </div>
+            <div class="form-group">
+                <label class="form-label">Nama Karyawan</label>
+                <input 
+                    type="text" 
+                    id="namaInput" 
+                    class="form-control" 
+                    placeholder="Pilih dari dropdown"
+                    list="namaSuggestions"
+                >
+                <datalist id="namaSuggestions"></datalist>
+            </div>
 
-                <div class="input-group">
-                    <label class="input-label">Jabatan</label>
-                    <select id="jabatanInput">
-                        <option value="">Pilih jabatan</option>
-                        <option value="Manager">Manager</option>
-                        <option value="Staff">Staff</option>
-                        <option value="Admin">Admin</option>
-                        <option value="Driver">Driver</option>
-                        <option value="Akuntan">Akuntan</option>
-                    </select>
-                </div>
+            <div class="form-group">
+                <label class="form-label">Foto (Opsional)</label>
+                <button class="btn btn-primary" onclick="document.getElementById('fotoInput').click()" style="margin-bottom: 8px;">
+                    📸 Ambil Foto
+                </button>
+                <input type="file" id="fotoInput" accept="image/*" capture="environment">
+                <img id="photoPreview" class="photo-preview" style="display: none;">
+            </div>
 
-                <div class="input-group">
-                    <label class="input-label">Foto (Selfie)</label>
-                    <button class="btn btn-secondary" id="fotoBtn" onclick="document.getElementById('fotoInput').click()">
-                        📸 Ambil Foto
-                    </button>
-                    <input type="file" id="fotoInput" accept="image/*" capture="environment">
-                    <img id="photoPreview" class="photo-preview" style="display: none;">
-                </div>
-
-                <div class="input-group">
-                    <label class="input-label">Catatan (Opsional)</label>
-                    <textarea id="notesInput" placeholder="Catatan tambahan"></textarea>
-                </div>
-
-                <button class="btn btn-primary" id="submitBtn" onclick="submitCheckin()">
-                    ✓ CHECK IN
+            <div class="buttons-group">
+                <button class="btn-large btn-checkin" onclick="submitCheckin()">
+                    ✓<br>CHECK IN
+                </button>
+                <button class="btn-large btn-checkout" onclick="submitCheckout()">
+                    ✗<br>CHECK OUT
                 </button>
             </div>
-        </div>
 
-        <div id="historyTab" class="tab-content">
-            <div class="history-list" id="historyList">
-                <div class="empty-state">
-                    <div class="empty-icon">⏱️</div>
-                    <div>Belum ada riwayat</div>
-                </div>
+            <div class="history-section" style="margin-top: 20px;">
+                <div style="font-weight: 600; margin-bottom: 12px;">Riwayat Hari Ini</div>
+                <div id="historyList" class="empty">Belum ada data</div>
+            </div>
+
+            <div class="logout-btn-wrapper">
+                <button class="btn btn-logout" onclick="logout()">Keluar</button>
             </div>
         </div>
-
-        <div id="profileTab" class="tab-content">
-            <div style="padding: 20px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center;">
-                <div style="font-size: 48px; margin-bottom: 16px;">👤</div>
-                <h2 style="margin-bottom: 8px;">Attendance Pro v1</h2>
-                <p style="color: var(--gray-700); font-size: 13px; margin-bottom: 20px;">
-                    Aplikasi checkin dengan GPS dan foto
-                </p>
-                <div style="background: var(--gray-100); padding: 16px; border-radius: 8px; text-align: left; font-size: 12px; color: var(--gray-700);">
-                    <p style="margin-bottom: 8px;"><strong>Fitur:</strong></p>
-                    <ul style="margin-left: 16px; line-height: 1.6;">
-                        <li>✓ Real-time GPS tracking</li>
-                        <li>✓ Camera selfie</li>
-                        <li>✓ Auto timestamp</li>
-                        <li>✓ Riwayat checkin</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="bottom-nav">
-        <button class="nav-item active" onclick="switchTab('home')">
-            <div>🏠</div>
-            <div>Home</div>
-        </button>
-        <button class="nav-item" onclick="switchTab('history')">
-            <div>⏱️</div>
-            <div>History</div>
-        </button>
-        <button class="nav-item" onclick="switchTab('profile')">
-            <div>👤</div>
-            <div>Profile</div>
-        </button>
     </div>
 
     <script>
-        // GAS Web App URL - SUDAH BENAR
-        const GAS_URL = 'https://script.google.com/macros/s/AKfycbxA3gm5BYzYxrA-_P9h8JwJqKNkO_gpzyS2IMsRhaQIYt4yEQomdo39DK-IcHTsSFnsAg/exec';
+        // CONFIG
+        const GAS_URL = 'https://script.google.com/macros/s/AKfycbxc7YDPcq_7BUdf_Pdj-CoD41NPDuiCpu5VI2gQsMik_R0xn_AE33rmw1YUgKKKknH8Ag/exec';
+        const VALID_USERS = ['mada', 'istri', 'novita', 'dian', 'fara', 'alya'];
+        const KARYAWAN = ['Mada', 'Istri', 'Novita', 'Dian', 'Fara', 'Alya'];
 
+        let currentUser = null;
         let currentPhoto = null;
         let currentLat = null;
         let currentLng = null;
-        let checkinHistory = JSON.parse(localStorage.getItem('checkinHistory') || '[]');
 
+        // INIT
         document.addEventListener('DOMContentLoaded', function() {
-            updateClock();
-            getLocation();
-            loadHistory();
+            checkLogin();
             setupPhotoInput();
-            setInterval(updateClock, 1000);
+            loadKaryawanList();
+            
+            if (currentUser) {
+                updateClock();
+                getLocation();
+                loadTodayHistory();
+                setInterval(updateClock, 1000);
+                setInterval(loadTodayHistory, 30000);
+            }
         });
 
+        // LOGIN
+        function login() {
+            const username = document.getElementById('usernameInput').value.trim().toLowerCase();
+            
+            if (!username) {
+                showStatus('Username harus diisi', 'error');
+                return;
+            }
+
+            if (!VALID_USERS.includes(username)) {
+                showStatus('Username tidak ditemukan', 'error');
+                return;
+            }
+
+            localStorage.setItem('currentUser', username);
+            currentUser = username;
+            showLoginScreen(false);
+            
+            updateClock();
+            getLocation();
+            loadTodayHistory();
+            setInterval(updateClock, 1000);
+            setInterval(loadTodayHistory, 30000);
+        }
+
+        function checkLogin() {
+            const user = localStorage.getItem('currentUser');
+            if (user && VALID_USERS.includes(user)) {
+                currentUser = user;
+                showLoginScreen(false);
+            } else {
+                showLoginScreen(true);
+            }
+        }
+
+        function logout() {
+            if (confirm('Keluar dari aplikasi?')) {
+                localStorage.removeItem('currentUser');
+                currentUser = null;
+                showLoginScreen(true);
+                document.getElementById('usernameInput').value = '';
+            }
+        }
+
+        function showLoginScreen(show) {
+            document.getElementById('loginScreen').style.display = show ? 'flex' : 'none';
+            document.getElementById('mainScreen').classList.toggle('active', !show);
+            
+            if (!show) {
+                const displayName = KARYAWAN[VALID_USERS.indexOf(currentUser)];
+                document.getElementById('userDisplay').textContent = '👤 ' + displayName;
+            }
+        }
+
+        // LOAD KARYAWAN LIST
+        function loadKaryawanList() {
+            const datalist = document.getElementById('namaSuggestions');
+            datalist.innerHTML = KARYAWAN.map(k => `<option value="${k}">`).join('');
+        }
+
+        // CLOCK
         function updateClock() {
             const now = new Date();
             const hours = String(now.getHours()).padStart(2, '0');
@@ -502,27 +523,26 @@
             document.getElementById('dateDisplay').textContent = formatter.format(now);
         }
 
+        // LOCATION
         function getLocation() {
-            if (!navigator.geolocation) {
-                showStatus('GPS tidak tersedia', 'error');
-                return;
-            }
+            if (!navigator.geolocation) return;
 
             navigator.geolocation.getCurrentPosition(
                 (position) => {
                     currentLat = position.coords.latitude;
                     currentLng = position.coords.longitude;
-                    document.getElementById('locationStatus').textContent = '✓ Terkonfirmasi';
-                    document.getElementById('locationStatus').style.background = 'var(--success)';
-                    document.getElementById('locationName').textContent = 
-                        `${currentLat.toFixed(4)}, ${currentLng.toFixed(4)}`;
+                    document.getElementById('locationInfo').innerHTML = 
+                        '✓ <strong>Lokasi terdeteksi:</strong> ' + 
+                        currentLat.toFixed(4) + ', ' + currentLng.toFixed(4);
                 },
                 (error) => {
-                    showStatus('GPS: ' + error.message, 'error');
+                    document.getElementById('locationInfo').innerHTML = 
+                        '✗ GPS tidak tersedia: ' + error.message;
                 }
             );
         }
 
+        // PHOTO INPUT
         function setupPhotoInput() {
             document.getElementById('fotoInput').addEventListener('change', function(e) {
                 const file = e.target.files[0];
@@ -534,47 +554,31 @@
                     const preview = document.getElementById('photoPreview');
                     preview.src = currentPhoto;
                     preview.style.display = 'block';
-                    document.getElementById('fotoBtn').textContent = '✓ Foto Tersimpan';
-                    document.getElementById('fotoBtn').style.background = 'var(--success)';
-                    document.getElementById('fotoBtn').style.color = 'white';
                 };
                 reader.readAsDataURL(file);
             });
         }
 
+        // SUBMIT CHECKIN
         async function submitCheckin() {
             const nama = document.getElementById('namaInput').value.trim();
-            const jabatan = document.getElementById('jabatanInput').value;
-            const notes = document.getElementById('notesInput').value.trim();
 
             if (!nama) {
-                showStatus('Nama harus diisi', 'error');
+                showStatus('Pilih nama karyawan terlebih dahulu', 'error');
                 return;
             }
 
-            if (!currentPhoto) {
-                showStatus('Foto harus diambil', 'error');
-                return;
-            }
-
-            if (currentLat === null || currentLng === null) {
-                showStatus('GPS belum terdeteksi', 'error');
-                return;
-            }
-
-            const btn = document.getElementById('submitBtn');
+            const btn = event.target;
             btn.disabled = true;
             showStatus('Mengirim data...', 'loading');
 
             try {
                 const payload = {
+                    tipe: 'checkin',
                     nama: nama,
-                    jabatan: jabatan,
                     latitude: currentLat,
                     longitude: currentLng,
-                    alamat: 'Nosada Farma',
-                    fotoBase64: currentPhoto,
-                    notes: notes
+                    fotoBase64: currentPhoto
                 };
 
                 const response = await fetch(GAS_URL, {
@@ -586,28 +590,12 @@
 
                 if (result.success) {
                     showStatus('✓ ' + result.message, 'success');
-                    
-                    checkinHistory.unshift({
-                        nama: nama,
-                        jabatan: jabatan,
-                        waktu: new Date().toLocaleTimeString('id-ID'),
-                        tanggal: new Date().toLocaleDateString('id-ID')
-                    });
-                    localStorage.setItem('checkinHistory', JSON.stringify(checkinHistory.slice(0, 20)));
-                    
-                    setTimeout(() => {
-                        document.getElementById('namaInput').value = '';
-                        document.getElementById('jabatanInput').value = '';
-                        document.getElementById('notesInput').value = '';
-                        document.getElementById('photoPreview').style.display = 'none';
-                        document.getElementById('fotoBtn').textContent = '📸 Ambil Foto';
-                        document.getElementById('fotoBtn').style.background = '';
-                        document.getElementById('fotoBtn').style.color = '';
-                        currentPhoto = null;
-                        loadHistory();
-                    }, 1500);
+                    document.getElementById('namaInput').value = '';
+                    currentPhoto = null;
+                    document.getElementById('photoPreview').style.display = 'none';
+                    loadTodayHistory();
                 } else {
-                    showStatus('Error: ' + result.message, 'error');
+                    showStatus('⚠ ' + result.message, 'error');
                 }
             } catch (error) {
                 showStatus('Error: ' + error.message, 'error');
@@ -616,37 +604,80 @@
             }
         }
 
-        function loadHistory() {
-            const historyList = document.getElementById('historyList');
-            if (checkinHistory.length === 0) {
-                historyList.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-icon">📋</div>
-                        <div>Belum ada riwayat checkin</div>
-                    </div>
-                `;
+        // SUBMIT CHECKOUT
+        async function submitCheckout() {
+            const nama = document.getElementById('namaInput').value.trim();
+
+            if (!nama) {
+                showStatus('Pilih nama karyawan terlebih dahulu', 'error');
                 return;
             }
 
-            historyList.innerHTML = checkinHistory.map(item => `
-                <div class="history-item">
-                    <div class="history-time">${item.waktu}</div>
-                    <div class="history-name">${item.nama} • ${item.jabatan}</div>
-                    <div style="font-size: 11px; color: var(--gray-700); margin-top: 4px;">${item.tanggal}</div>
-                </div>
-            `).join('');
+            const btn = event.target;
+            btn.disabled = true;
+            showStatus('Mengirim data...', 'loading');
+
+            try {
+                const payload = {
+                    tipe: 'checkout',
+                    nama: nama,
+                    latitude: currentLat,
+                    longitude: currentLng,
+                    fotoBase64: currentPhoto
+                };
+
+                const response = await fetch(GAS_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showStatus('✓ ' + result.message, 'success');
+                    document.getElementById('namaInput').value = '';
+                    currentPhoto = null;
+                    document.getElementById('photoPreview').style.display = 'none';
+                    loadTodayHistory();
+                } else {
+                    showStatus('⚠ ' + result.message, 'error');
+                }
+            } catch (error) {
+                showStatus('Error: ' + error.message, 'error');
+            } finally {
+                btn.disabled = false;
+            }
         }
 
-        function switchTab(tab) {
-            const tabs = ['home', 'history', 'profile'];
-            tabs.forEach(t => document.getElementById(t + 'Tab').classList.remove('active'));
-            document.getElementById(tab + 'Tab').classList.add('active');
+        // LOAD TODAY HISTORY
+        async function loadTodayHistory() {
+            try {
+                const response = await fetch(GAS_URL);
+                const result = await response.json();
 
-            const navItems = document.querySelectorAll('.nav-item');
-            navItems.forEach(item => item.classList.remove('active'));
-            event.target.closest('.nav-item').classList.add('active');
+                const historyList = document.getElementById('historyList');
+
+                if (!result.data || result.data.length === 0) {
+                    historyList.innerHTML = '<div class="empty">Belum ada absensi hari ini</div>';
+                    return;
+                }
+
+                historyList.innerHTML = result.data.map(item => `
+                    <div class="history-item">
+                        <div><strong>${item.nama}</strong></div>
+                        <div style="font-size: 11px; color: var(--gray-700);">
+                            IN: ${item.checkIn} 
+                            ${item.checkOut ? '| OUT: ' + item.checkOut : ''}
+                            ${item.durasi ? '| ' + item.durasi + 'h' : ''}
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.log('Error loading history:', error);
+            }
         }
 
+        // STATUS MESSAGE
         function showStatus(msg, type) {
             const el = document.getElementById('statusMsg');
             el.textContent = msg;
