@@ -2,698 +2,895 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#1B8A3E">
-    <title>Attendance App - Nosada Farma</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="description" content="Absensi Nosada Farma">
+    <title>Absensi Nosada Farma</title>
+    <meta name="theme-color" content="#2196F3">
     <link rel="manifest" href="manifest.json">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            overflow: hidden;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #1B8A3E 0%, #0d5c2a 100%);
-            min-height: 100vh;
             display: flex;
+            flex-direction: column;
+        }
+
+        /* ==================== LOGIN PAGE ==================== */
+        .page {
+            display: none;
+            width: 100%;
+            height: 100%;
+            flex-direction: column;
+        }
+
+        .page.active {
+            display: flex;
+        }
+
+        #loginPage {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             justify-content: center;
             align-items: center;
             padding: 20px;
         }
 
-        .container {
-            width: 100%;
-            max-width: 500px;
+        .login-container {
             background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
-        }
-
-        .header {
-            background: linear-gradient(135deg, #1B8A3E 0%, #0d5c2a 100%);
-            color: white;
+            border-radius: 12px;
             padding: 30px 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
             text-align: center;
         }
 
-        .header h1 {
+        .login-container h1 {
             font-size: 24px;
-            margin-bottom: 8px;
+            color: #333;
+            margin-bottom: 10px;
         }
 
-        .header p {
-            font-size: 13px;
-            opacity: 0.9;
+        .login-container p {
+            color: #999;
+            font-size: 14px;
+            margin-bottom: 30px;
         }
 
-        .login-screen, .app-screen {
-            padding: 30px 20px;
-        }
-
-        .login-screen {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .login-screen input {
+        .login-container select {
             width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
+            padding: 12px;
             font-size: 16px;
-            transition: border-color 0.2s;
-        }
-
-        .login-screen input:focus {
-            outline: none;
-            border-color: #1B8A3E;
-        }
-
-        .btn {
-            padding: 12px 20px;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-weight: 600;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #1B8A3E 0%, #0d5c2a 100%);
-            color: white;
-            width: 100%;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(27, 138, 62, 0.3);
-        }
-
-        .btn-primary:active {
-            transform: translateY(0);
-        }
-
-        .btn-primary:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .greeting {
-            text-align: center;
-            padding: 20px;
-            background: #f5f5f5;
-            border-radius: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
             margin-bottom: 20px;
+            background: white;
+            color: #333;
+            cursor: pointer;
+            -webkit-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23667eea' d='M0 0l6 6 6-6z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            padding-right: 35px;
         }
 
-        .greeting h2 {
-            color: #1B8A3E;
+        .login-container select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .login-container option {
+            color: #333;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .login-btn:active {
+            background: #5568d3;
+        }
+
+        /* ==================== ABSENSI PAGE ==================== */
+        #absensiPage {
+            background: white;
+            justify-content: flex-start;
+        }
+
+        .absensi-header {
+            background: #2196F3;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .absensi-header h2 {
             font-size: 18px;
             margin-bottom: 5px;
         }
 
-        .clock {
-            font-size: 32px;
-            font-weight: bold;
-            color: #333;
-            font-family: 'Courier New', monospace;
-            margin: 10px 0;
+        .absensi-header p {
+            font-size: 14px;
+            opacity: 0.9;
         }
 
-        .location-info {
-            font-size: 12px;
-            color: #666;
-            margin-top: 8px;
-        }
-
-        .photo-section {
+        .absensi-content {
+            flex: 1;
             display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
+            flex-direction: column;
+            overflow-y: auto;
+            padding: 20px;
+            gap: 20px;
         }
 
-        .photo-preview {
-            width: 100px;
-            height: 100px;
-            background: #f5f5f5;
-            border-radius: 10px;
-            display: none;
+        #cameraContainer {
+            background: #000;
+            border-radius: 8px;
             overflow: hidden;
+            aspect-ratio: 4/3;
+            max-height: 50vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
         }
 
-        .photo-preview img {
+        #videoPreview {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .btn-photo {
+        .button-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
             flex: 1;
-            background: #FF9800;
-            color: white;
-        }
-
-        .btn-photo:hover {
-            background: #F57C00;
-        }
-
-        .btn-photo.has-photo {
-            background: #4CAF50;
-        }
-
-        .btn-absensi {
-            width: 100%;
-            background: linear-gradient(135deg, #1B8A3E 0%, #0d5c2a 100%);
-            color: white;
-            font-size: 18px;
-            padding: 16px;
-            margin-bottom: 15px;
-        }
-
-        .log-section {
-            background: #f5f5f5;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-
-        .log-section h3 {
-            color: #333;
-            font-size: 14px;
-            margin-bottom: 15px;
-        }
-
-        .log-item {
-            background: white;
-            padding: 15px;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
             border-radius: 8px;
-            border-left: 4px solid #1B8A3E;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .log-status {
-            font-weight: 600;
-            color: #1B8A3E;
-            margin-bottom: 8px;
+        .btn:active {
+            transform: scale(0.98);
         }
 
-        .log-time {
-            color: #666;
-            font-size: 13px;
-            margin: 5px 0;
-        }
-
-        .log-durasi {
-            color: #1B8A3E;
-            font-weight: 600;
-            font-size: 13px;
-            margin-top: 8px;
-        }
-
-        .empty {
-            text-align: center;
-            color: #999;
-            font-size: 13px;
-            padding: 20px;
-        }
-
-        .status-msg {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
-            max-width: 460px;
-            padding: 15px 20px;
-            border-radius: 10px;
-            opacity: 0;
-            transition: opacity 0.3s;
-            pointer-events: none;
-            z-index: 1000;
-        }
-
-        .status-msg.show {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .status-msg.success {
+        .btn-primary {
             background: #4CAF50;
             color: white;
         }
 
-        .status-msg.error {
+        .btn-primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
             background: #f44336;
             color: white;
         }
 
-        .status-msg.loading {
-            background: #2196F3;
+        .btn-tertiary {
+            background: #FF9800;
             color: white;
         }
 
-        .btn-logout {
-            width: 100%;
-            background: #e0e0e0;
-            color: #333;
+        .status-card {
+            background: #f9f9f9;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            border-radius: 4px;
             font-size: 14px;
+            color: #333;
         }
 
-        .btn-logout:hover {
-            background: #d0d0d0;
+        .status-card.success {
+            border-left-color: #4CAF50;
+            background: #f1f8f4;
         }
 
-        #fotoInput {
+        .status-card.error {
+            border-left-color: #f44336;
+            background: #fef5f5;
+        }
+
+        .status-card strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #222;
+        }
+
+        .log-section {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .log-section h3 {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .log-entry {
+            font-size: 13px;
+            color: #555;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .log-entry:last-child {
+            border-bottom: none;
+        }
+
+        /* ==================== ADMIN PAGE ==================== */
+        #adminPage {
+            background: white;
+        }
+
+        .admin-header {
+            background: #333;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-header h2 {
+            font-size: 18px;
+        }
+
+        .tab-buttons {
+            display: flex;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px;
+            background: white;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #999;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            color: #2196F3;
+            border-bottom: 3px solid #2196F3;
+            margin-bottom: -2px;
+        }
+
+        .tab-content {
             display: none;
+            padding: 15px;
+            overflow-y: auto;
+            max-height: calc(100vh - 140px);
         }
 
-        .app-screen {
-            display: none;
-        }
-
-        .app-screen.show {
+        .tab-content.active {
             display: block;
         }
 
-        .login-screen.hide {
-            display: none;
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        table th {
+            background: #f5f5f5;
+            padding: 10px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid #ddd;
+            color: #333;
+        }
+
+        table td {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            color: #555;
+        }
+
+        table tr:hover {
+            background: #f9f9f9;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #999;
+        }
+
+        /* ==================== UTILITIES ==================== */
+        .hidden {
+            display: none !important;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #2196F3;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .toastContainer {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            z-index: 9999;
+        }
+
+        .toast {
+            background: #323232;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            animation: slideIn 0.3s ease-out;
+            font-size: 14px;
+        }
+
+        .toast.success {
+            background: #4CAF50;
+        }
+
+        .toast.error {
+            background: #f44336;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .logout-btn {
+            padding: 8px 12px;
+            background: #f44336;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        @media (max-width: 480px) {
+            .button-group {
+                flex-direction: column;
+            }
+
+            .login-container {
+                padding: 20px 15px;
+            }
+
+            .absensi-header {
+                padding: 15px;
+            }
+
+            .absensi-content {
+                padding: 15px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>📋 Absensi Nosada</h1>
-            <p>Attendance System</p>
-        </div>
+    <!-- TOAST CONTAINER -->
+    <div class="toastContainer" id="toastContainer"></div>
 
-        <!-- LOGIN SCREEN -->
-        <div class="login-screen">
-            <input type="text" id="usernameInput" placeholder="Username" autofocus>
-            <button class="btn btn-primary" onclick="login()">Login</button>
-        </div>
-
-        <!-- APP SCREEN -->
-        <div class="app-screen">
-            <div class="greeting">
-                <h2 id="greetingText">Selamat Pagi</h2>
-                <div class="clock" id="clock">00:00:00</div>
-                <div class="location-info" id="locationInfo">🔄 Deteksi lokasi...</div>
-            </div>
-
-            <div class="photo-section">
-                <button class="btn btn-photo" id="photoBtn" onclick="triggerPhotoInput()">📷 Ambil Foto</button>
-                <div class="photo-preview" id="photoPreview">
-                    <img id="photoImg" src="">
-                </div>
-            </div>
-
-            <button class="btn btn-absensi" id="absensiBtn" onclick="submitAbsensi()">ABSENSI</button>
-
-            <div class="log-section">
-                <h3>📊 Log Hari Ini</h3>
-                <div id="todayLog" class="empty">Memuat...</div>
-            </div>
-
-            <button class="btn btn-logout" onclick="logout()">Keluar</button>
+    <!-- LOGIN PAGE -->
+    <div id="loginPage" class="page active">
+        <div class="login-container">
+            <h1>📸 Absensi</h1>
+            <p>Nosada Farma</p>
+            <select id="karyawanSelect">
+                <option value="">Pilih Nama Karyawan...</option>
+            </select>
+            <button class="login-btn" onclick="loginKaryawan()">Masuk</button>
         </div>
     </div>
 
-    <!-- Hidden iframe untuk form submission ke GAS -->
-    <iframe name="gas-iframe" style="display:none;"></iframe>
+    <!-- ABSENSI PAGE -->
+    <div id="absensiPage" class="page">
+        <div class="absensi-header">
+            <h2 id="greeting">Selamat Datang</h2>
+            <p id="tanggalHari"></p>
+            <button class="logout-btn" onclick="logout()">Keluar</button>
+        </div>
+        <div class="absensi-content">
+            <div id="cameraContainer">
+                <video id="videoPreview" style="display:none;"></video>
+                <div id="cameraPlaceholder">Kamera Diaktifkan...</div>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-primary" id="captureBtn" onclick="capturePhoto()">📷 Ambil Foto</button>
+                <button class="btn btn-tertiary" id="absenBtn" onclick="toggleAbsen()">📍 ABSEN</button>
+                <button class="btn btn-secondary" onclick="toggleAdminView()">👁️ ADMIN</button>
+            </div>
 
-    <!-- Hidden file input -->
-    <input type="file" id="fotoInput" accept="image/*" capture="environment">
+            <div id="statusMessage" class="status-card hidden"></div>
 
-    <!-- Status message -->
-    <div class="status-msg" id="statusMsg"></div>
+            <div class="log-section">
+                <h3>Log Hari Ini</h3>
+                <div id="absensiLog"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN PAGE -->
+    <div id="adminPage" class="page">
+        <div class="admin-header">
+            <h2>📊 Admin Dashboard</h2>
+            <button class="logout-btn" onclick="toggleAdminView()">Kembali</button>
+        </div>
+        
+        <div class="tab-buttons">
+            <button class="tab-btn active" onclick="switchAdminTab('karyawan')">Karyawan</button>
+            <button class="tab-btn" onclick="switchAdminTab('log')">Log Absensi</button>
+            <button class="tab-btn" onclick="switchAdminTab('report')">Report Bulanan</button>
+        </div>
+
+        <div id="karyawan-tab" class="tab-content active">
+            <div class="loading"><div class="spinner"></div> Loading...</div>
+        </div>
+        <div id="log-tab" class="tab-content">
+            <div class="loading"><div class="spinner"></div> Loading...</div>
+        </div>
+        <div id="report-tab" class="tab-content">
+            <div class="loading"><div class="spinner"></div> Loading...</div>
+        </div>
+    </div>
 
     <script>
-        // ===== CONFIG =====
-        const GAS_URL = 'https://script.google.com/macros/s/AKfycbwN3FnnbigH0pSCkdtEJrcZ4_YNsuA-0Cs5R4tdYPRXm4FlJYoo_TdxSthB1WHfI92J/exec';
-        
-        const VALID_USERS = ['mada', 'istri', 'novita', 'dian', 'fara', 'alya'];
-        const KARYAWAN = {
-            'mada': 'Mada',
-            'istri': 'Istri',
-            'novita': 'Novita',
-            'dian': 'Dian',
-            'fara': 'Fara',
-            'alya': 'Alya'
-        };
-
+        // CONFIG
+        const GAS_URL = 'https://script.google.com/macros/s/AKfycbxjA-uADUjGokcuyFFch4u_DWLtzs5qeFRKp3_mtz5gh2suuCMpD6-ZSd9WAHqHZrIJ/exec';
         let currentUser = null;
-        let currentPhoto = null;
-        let currentLat = 0;
-        let currentLng = 0;
+        let lastPhotoBase64 = null;
+        let lastCheckInTime = null;
 
-        // ===== INIT =====
-        window.addEventListener('load', () => {
-            checkLogin();
-            setupPhotoInput();
-            
-            if (currentUser) {
-                updateClock();
-                getLocation();
-                loadTodayLog();
-                setInterval(updateClock, 1000);
-                setInterval(loadTodayLog, 30000);
-            }
+        // ==================== INITIALIZATION ====================
+        window.addEventListener('DOMContentLoaded', () => {
+            loadKaryawanList();
+            updateTanggalHari();
+            setInterval(updateTanggalHari, 60000);
+
+            // Disable pinch zoom
+            document.addEventListener('touchmove', (e) => {
+                if (e.touches.length > 1) {
+                    e.preventDefault();
+                }
+            }, {passive: false});
+
+            document.addEventListener('gesturestart', (e) => {
+                e.preventDefault();
+            }, {passive: false});
         });
 
-        // ===== LOGIN =====
-        function login() {
-            const username = document.getElementById('usernameInput').value.trim().toLowerCase();
-            
-            if (!username) {
-                showStatus('Username harus diisi', 'error');
-                return;
-            }
-
-            if (!VALID_USERS.includes(username)) {
-                showStatus('Username tidak ditemukan', 'error');
-                return;
-            }
-
-            localStorage.setItem('currentUser', username);
-            currentUser = username;
-            showLoginScreen(false);
-            
-            updateClock();
-            getLocation();
-            loadTodayLog();
-            setInterval(updateClock, 1000);
-            setInterval(loadTodayLog, 30000);
+        function updateTanggalHari() {
+            const now = new Date();
+            const hari = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'][now.getDay()];
+            const tanggal = now.toLocaleDateString('id-ID');
+            document.getElementById('tanggalHari').textContent = `${hari}, ${tanggal}`;
         }
 
-        function checkLogin() {
-            const user = localStorage.getItem('currentUser');
-            if (user && VALID_USERS.includes(user)) {
-                currentUser = user;
-                showLoginScreen(false);
-            } else {
-                showLoginScreen(true);
+        // ==================== LOGIN ====================
+        async function loadKaryawanList() {
+            try {
+                const response = await fetch(`${GAS_URL}?action=getKaryawan`);
+                const result = await response.json();
+                
+                if (result.success && result.data.length > 0) {
+                    const select = document.getElementById('karyawanSelect');
+                    result.data.forEach(k => {
+                        const option = document.createElement('option');
+                        option.value = k.nama;
+                        option.textContent = k.nama;
+                        option.dataset.ratePerJam = k.ratePerJam;
+                        select.appendChild(option);
+                    });
+                }
+            } catch (error) {
+                showToast('Gagal load data karyawan', 'error');
             }
+        }
+
+        function loginKaryawan() {
+            const select = document.getElementById('karyawanSelect');
+            const nama = select.value;
+
+            if (!nama) {
+                showToast('Pilih nama terlebih dahulu', 'error');
+                return;
+            }
+
+            const option = select.querySelector(`option[value="${nama}"]`);
+            currentUser = {
+                nama: nama,
+                ratePerJam: parseInt(option.dataset.ratePerJam) || 0,
+                tanggal: getTodayDate()
+            };
+
+            showGreeting();
+            switchPage('absensi');
+            startCamera();
+            loadAbsensiLog();
         }
 
         function logout() {
-            localStorage.removeItem('currentUser');
+            stopCamera();
             currentUser = null;
-            currentPhoto = null;
-            showLoginScreen(true);
-            document.getElementById('usernameInput').value = '';
-            document.getElementById('usernameInput').focus();
+            lastPhotoBase64 = null;
+            document.getElementById('karyawanSelect').value = '';
+            switchPage('login');
         }
 
-        function showLoginScreen(show) {
-            document.querySelector('.login-screen').classList.toggle('hide', !show);
-            document.querySelector('.app-screen').classList.toggle('show', !show);
-        }
-
-        // ===== CLOCK & GREETING =====
-        function updateClock() {
-            const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const mins = String(now.getMinutes()).padStart(2, '0');
-            const secs = String(now.getSeconds()).padStart(2, '0');
-            
-            document.getElementById('clock').textContent = `${hours}:${mins}:${secs}`;
-            
-            getGreeting();
-        }
-
-        function getGreeting() {
+        function showGreeting() {
             const hour = new Date().getHours();
             let greeting = 'Selamat Pagi';
-            
-            if (hour >= 12 && hour < 15) greeting = 'Selamat Siang';
-            else if (hour >= 15 && hour < 18) greeting = 'Selamat Sore';
-            else if (hour >= 18) greeting = 'Selamat Malam';
-            
-            const nama = KARYAWAN[currentUser] || 'Guest';
-            document.getElementById('greetingText').textContent = `${greeting}, ${nama}`;
+            if (hour >= 11 && hour < 15) greeting = 'Selamat Siang';
+            if (hour >= 15 && hour < 19) greeting = 'Selamat Sore';
+            if (hour >= 19) greeting = 'Selamat Malam';
+
+            document.getElementById('greeting').textContent = `${greeting}, ${currentUser.nama} 👋`;
         }
 
-        // ===== LOCATION =====
-        function getLocation() {
-            if (!navigator.geolocation) return;
-
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    currentLat = position.coords.latitude;
-                    currentLng = position.coords.longitude;
-                    document.getElementById('locationInfo').innerHTML = 
-                        '✓ <strong>Lokasi terdeteksi:</strong> ' + 
-                        currentLat.toFixed(4) + ', ' + currentLng.toFixed(4);
-                },
-                (error) => {
-                    document.getElementById('locationInfo').innerHTML = 
-                        '✗ GPS tidak tersedia';
-                }
-            );
-        }
-
-        // ===== PHOTO INPUT =====
-        function setupPhotoInput() {
-            document.getElementById('fotoInput').addEventListener('change', function(e) {
-                const file = e.target.files[0];
-                if (!file) return;
-
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    // Compress foto pakai canvas
-                    const img = new Image();
-                    img.onload = () => {
-                        const canvas = document.createElement('canvas');
-                        const ctx = canvas.getContext('2d');
-                        
-                        // Resize ke max 800px
-                        let width = img.width;
-                        let height = img.height;
-                        const maxSize = 800;
-                        
-                        if (width > height) {
-                            if (width > maxSize) {
-                                height = (height * maxSize) / width;
-                                width = maxSize;
-                            }
-                        } else {
-                            if (height > maxSize) {
-                                width = (width * maxSize) / height;
-                                height = maxSize;
-                            }
-                        }
-                        
-                        canvas.width = width;
-                        canvas.height = height;
-                        ctx.drawImage(img, 0, 0, width, height);
-                        
-                        // Convert ke base64 dengan quality 0.7
-                        currentPhoto = canvas.toDataURL('image/jpeg', 0.7);
-                        
-                        const preview = document.getElementById('photoPreview');
-                        const imgPreview = document.getElementById('photoImg');
-                        
-                        imgPreview.src = currentPhoto;
-                        preview.style.display = 'block';
-                        
-                        document.getElementById('photoBtn').classList.add('has-photo');
-                        document.getElementById('photoBtn').textContent = '✓ Foto OK';
-                    };
-                    
-                    img.src = event.target.result;
-                };
-                
-                reader.readAsDataURL(file);
-            });
-        }
-
-        function triggerPhotoInput() {
-            document.getElementById('fotoInput').click();
-        }
-
-        // ===== SUBMIT ABSENSI (1 TOMBOL - SMART LOGIC) =====
-        function submitAbsensi() {
-            if (!currentPhoto) {
-                showStatus('Ambil foto terlebih dahulu!', 'error');
-                return;
-            }
-
-            const btn = document.getElementById('absensiBtn');
-            btn.disabled = true;
-            showStatus('Memproses...', 'loading');
-
-            const nama = KARYAWAN[currentUser];
-            const now = new Date();
-            const waktu = String(now.getHours()).padStart(2, '0') + ':' + 
-                         String(now.getMinutes()).padStart(2, '0') + ':' +
-                         String(now.getSeconds()).padStart(2, '0');
-            
-            const todayAttendance = JSON.parse(localStorage.getItem('todayAttendance') || '[]');
-            
-            // Cari record user hari ini
-            const existingIndex = todayAttendance.findIndex(item => item.nama === nama);
-            
-            if (existingIndex === -1) {
-                // ===== KLIK 1: JAM MASUK =====
-                todayAttendance.push({
-                    nama: nama,
-                    jamMasuk: waktu,
-                    jamPulang: '',
-                    durasi: 0,
-                    gaji: 0
+        // ==================== CAMERA ====================
+        async function startCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: {facingMode: 'user', width: {ideal: 1280}, height: {ideal: 720}},
+                    audio: false
                 });
-                
-                localStorage.setItem('todayAttendance', JSON.stringify(todayAttendance));
-                
-                setTimeout(() => {
-                    showStatus('✓ Jam Masuk: ' + waktu, 'success');
-                    
-                    // Reset foto
-                    currentPhoto = null;
-                    document.getElementById('photoPreview').style.display = 'none';
-                    document.getElementById('photoBtn').classList.remove('has-photo');
-                    document.getElementById('photoBtn').textContent = '📷 Ambil Foto';
-                    btn.disabled = false;
-                    
-                    loadTodayLog();
-                    
-                    // Submit ke GAS untuk backup (background)
-                    submitToGAS(nama, waktu);
-                }, 500);
-                
-            } else {
-                // ===== KLIK 2+: JAM PULANG (BISA DIULANG) =====
-                const record = todayAttendance[existingIndex];
-                const jamMasuk = record.jamMasuk;
-                
-                // Hitung durasi
-                const [hm, mm, sm] = jamMasuk.split(':').map(Number);
-                const [hp, mp, sp] = waktu.split(':').map(Number);
-                
-                const masuk = hm * 3600 + mm * 60 + sm;
-                const pulang = hp * 3600 + mp * 60 + sp;
-                const durasiDetik = pulang - masuk;
-                const durasi = Math.round((durasiDetik / 3600) * 100) / 100;
-                
-                const gajiPerJam = 30000;
-                const gaji = durasi * gajiPerJam;
-                
-                // Update record
-                record.jamPulang = waktu;
-                record.durasi = durasi;
-                record.gaji = gaji;
-                
-                localStorage.setItem('todayAttendance', JSON.stringify(todayAttendance));
-                
-                setTimeout(() => {
-                    showStatus('✓ Jam Pulang: ' + waktu + ' (' + durasi + 'h)', 'success');
-                    
-                    currentPhoto = null;
-                    document.getElementById('photoPreview').style.display = 'none';
-                    document.getElementById('photoBtn').classList.remove('has-photo');
-                    document.getElementById('photoBtn').textContent = '📷 Ambil Foto';
-                    btn.disabled = false;  // ← TETAP AKTIF, BISA DIULANG!
-                    
-                    loadTodayLog();
-                    
-                    // Submit ke GAS untuk backup (background)
-                    submitToGAS(nama, waktu);
-                }, 500);
+
+                const video = document.getElementById('videoPreview');
+                video.srcObject = stream;
+                video.style.display = 'block';
+                document.getElementById('cameraPlaceholder').style.display = 'none';
+                video.play();
+            } catch (error) {
+                showToast('Akses kamera ditolak', 'error');
             }
         }
 
-        // ===== SUBMIT KE GAS (background, form submission) =====
-        function submitToGAS(nama, waktu) {
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = GAS_URL;
-            form.style.display = 'none';
-            form.target = 'gas-iframe';
-
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'data';
-            input.value = JSON.stringify({
-                nama: nama,
-                latitude: currentLat,
-                longitude: currentLng,
-                fotoBase64: ''  // ← KOSONGKAN, JANGAN KIRIM FOTO
-            });
-
-            form.appendChild(input);
-            document.body.appendChild(form);
-            form.submit();
-            
-            setTimeout(() => {
-                document.body.removeChild(form);
-            }, 1000);
+        function stopCamera() {
+            const video = document.getElementById('videoPreview');
+            if (video.srcObject) {
+                video.srcObject.getTracks().forEach(track => track.stop());
+                video.style.display = 'none';
+                document.getElementById('cameraPlaceholder').style.display = 'flex';
+            }
         }
 
-        // ===== LOAD TODAY LOG (dari localStorage) =====
-        function loadTodayLog() {
-            const logDiv = document.getElementById('todayLog');
-            const nama = KARYAWAN[currentUser];
-            const todayAttendance = JSON.parse(localStorage.getItem('todayAttendance') || '[]');
-
-            // Filter hanya user hari ini
-            const userLog = todayAttendance.find(item => item.nama === nama);
-
-            if (!userLog) {
-                logDiv.innerHTML = '<div class="empty">Belum ada absensi</div>';
+        function capturePhoto() {
+            const video = document.getElementById('videoPreview');
+            if (!video.srcObject) {
+                showToast('Kamera belum aktif', 'error');
                 return;
             }
 
-            let html = `
-                <div class="log-item">
-                    <div class="log-status">✓ 1x Absen</div>
-                    <div class="log-time">
-                        🔵 Jam Masuk: ${userLog.jamMasuk}
-                    </div>
-            `;
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0);
 
-            if (userLog.jamPulang) {
-                html += `
-                    <div class="log-time">
-                        🔴 Jam Pulang: ${userLog.jamPulang}
-                    </div>
-                    <div class="log-durasi">
-                        ⏱ Durasi: ${userLog.durasi} jam | Gaji: Rp ${userLog.gaji.toLocaleString('id-ID')}
-                    </div>
-                `;
+            lastPhotoBase64 = canvas.toDataURL('image/jpeg').split(',')[1];
+            showToast('Foto berhasil diambil ✓', 'success');
+        }
+
+        // ==================== ABSENSI ====================
+        async function toggleAbsen() {
+            if (!currentUser) {
+                showToast('Pilih karyawan terlebih dahulu', 'error');
+                return;
+            }
+
+            if (!lastPhotoBase64) {
+                showToast('Ambil foto terlebih dahulu', 'error');
+                return;
+            }
+
+            const now = new Date();
+            const jamAbsen = formatTime(now);
+            const isCheckIn = !lastCheckInTime;
+
+            // Get GPS
+            let latitude = null, longitude = null;
+            try {
+                const position = await new Promise((resolve, reject) => {
+                    navigator.geolocation.getCurrentPosition(resolve, reject);
+                });
+                latitude = position.coords.latitude;
+                longitude = position.coords.longitude;
+            } catch (error) {
+                showToast('GPS tidak tersedia, lanjut tanpa GPS', 'error');
+            }
+
+            try {
+                // Upload foto
+                await uploadFoto(lastPhotoBase64, jamAbsen);
+
+                // Save absensi
+                const response = await fetch(`${GAS_URL}?action=saveAbsensi`, {
+                    method: 'POST',
+                    payload: JSON.stringify({
+                        nama: currentUser.nama,
+                        tanggal: currentUser.tanggal,
+                        jamAbsen: jamAbsen,
+                        latitude: latitude,
+                        longitude: longitude,
+                        isCheckIn: isCheckIn,
+                        ratePerJam: currentUser.ratePerJam
+                    })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    if (isCheckIn) {
+                        lastCheckInTime = jamAbsen;
+                        showStatus(`✓ Absen Masuk: ${jamAbsen}`, 'success');
+                    } else {
+                        showStatus(`✓ Absen Pulang: ${jamAbsen}\nDurasi: ${result.durasi} jam\nGaji: Rp${result.gaji.toLocaleString('id-ID')}`, 'success');
+                        lastCheckInTime = null;
+                    }
+                    loadAbsensiLog();
+                } else {
+                    showStatus(`❌ ${result.message}`, 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ Gagal absen: ${error}`, 'error');
+            }
+
+            lastPhotoBase64 = null;
+        }
+
+        async function uploadFoto(base64, jamAbsen) {
+            return fetch(`${GAS_URL}?action=uploadFoto`, {
+                method: 'POST',
+                payload: JSON.stringify({
+                    nama: currentUser.nama,
+                    tanggal: currentUser.tanggal,
+                    jamAbsen: jamAbsen,
+                    fotoBase64: base64
+                })
+            }).then(r => r.json()).catch(() => ({}));
+        }
+
+        // ==================== LOG & STATUS ====================
+        async function loadAbsensiLog() {
+            try {
+                const response = await fetch(`${GAS_URL}?action=getLog`);
+                const result = await response.json();
+
+                const logDiv = document.getElementById('absensiLog');
+                logDiv.innerHTML = '';
+
+                if (result.data && result.data.length > 0) {
+                    const todayLogs = result.data.filter(log => 
+                        log.nama === currentUser.nama && log.tanggal === currentUser.tanggal
+                    );
+
+                    if (todayLogs.length > 0) {
+                        todayLogs.forEach(log => {
+                            const entry = document.createElement('div');
+                            entry.className = 'log-entry';
+                            entry.innerHTML = `<strong>${log.jamMasuk}</strong> → ${log.jamPulang || '(pending)'} | ${log.durasi ? log.durasi + ' jam' : ''}`;
+                            logDiv.appendChild(entry);
+                        });
+                    } else {
+                        logDiv.innerHTML = '<div class="log-entry">Belum ada absensi hari ini</div>';
+                    }
+                } else {
+                    logDiv.innerHTML = '<div class="log-entry">Belum ada absensi</div>';
+                }
+            } catch (error) {
+                // Silent fail
+            }
+        }
+
+        function showStatus(message, type) {
+            const div = document.getElementById('statusMessage');
+            div.textContent = message;
+            div.className = `status-card ${type}`;
+            div.classList.remove('hidden');
+
+            setTimeout(() => {
+                div.classList.add('hidden');
+            }, 5000);
+        }
+
+        // ==================== ADMIN ====================
+        function toggleAdminView() {
+            const absensiPage = document.getElementById('absensiPage');
+            const adminPage = document.getElementById('adminPage');
+
+            if (absensiPage.classList.contains('active')) {
+                absensiPage.classList.remove('active');
+                adminPage.classList.add('active');
+                loadAdminData();
             } else {
-                html += `
-                    <div class="log-time">
-                        ⏳ Sedang bekerja...
-                    </div>
-                `;
-            }
-
-            html += '</div>';
-            logDiv.innerHTML = html;
-        }
-
-        // ===== STATUS MESSAGE =====
-        function showStatus(msg, type) {
-            const el = document.getElementById('statusMsg');
-            el.textContent = msg;
-            el.className = 'status-msg show ' + type;
-            
-            if (type !== 'loading') {
-                setTimeout(() => {
-                    el.classList.remove('show');
-                }, 3000);
+                adminPage.classList.remove('active');
+                absensiPage.classList.add('active');
+                loadAbsensiLog();
             }
         }
-    </script>
 
-    <!-- PWA Service Worker (optional) -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js').catch(() => {});
+        function switchAdminTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+            event.target.classList.add('active');
+            document.getElementById(`${tab}-tab`).classList.add('active');
+
+            if (tab === 'karyawan') loadKaryawanTable();
+            if (tab === 'log') loadLogTable();
+            if (tab === 'report') loadReportTable();
+        }
+
+        async function loadAdminData() {
+            loadKaryawanTable();
+        }
+
+        async function loadKaryawanTable() {
+            try {
+                const response = await fetch(`${GAS_URL}?action=getKaryawan`);
+                const result = await response.json();
+
+                const tab = document.getElementById('karyawan-tab');
+                if (result.success && result.data.length > 0) {
+                    let html = '<table><tr><th>ID</th><th>Nama</th><th>Rate/Jam</th></tr>';
+                    result.data.forEach(k => {
+                        html += `<tr><td>${k.id}</td><td>${k.nama}</td><td>Rp${k.ratePerJam.toLocaleString('id-ID')}</td></tr>`;
+                    });
+                    html += '</table>';
+                    tab.innerHTML = html;
+                } else {
+                    tab.innerHTML = '<div class="loading">Tidak ada data</div>';
+                }
+            } catch (error) {
+                document.getElementById('karyawan-tab').innerHTML = '<div class="loading">Error loading data</div>';
+            }
+        }
+
+        async function loadLogTable() {
+            try {
+                const response = await fetch(`${GAS_URL}?action=getLog`);
+                const result = await response.json();
+
+                const tab = document.getElementById('log-tab');
+                if (result.success && result.data.length > 0) {
+                    let html = '<table><tr><th>Tanggal</th><th>Nama</th><th>Masuk</th><th>Pulang</th><th>Durasi</th><th>Gaji</th></tr>';
+                    result.data.forEach(log => {
+                        html += `<tr>
+                            <td>${log.tanggal}</td>
+                            <td>${log.nama}</td>
+                            <td>${log.jamMasuk}</td>
+                            <td>${log.jamPulang || '-'}</td>
+                            <td>${log.durasi || '-'}</td>
+                            <td>${log.gaji ? 'Rp' + log.gaji.toLocaleString('id-ID') : '-'}</td>
+                        </tr>`;
+                    });
+                    html += '</table>';
+                    tab.innerHTML = html;
+                } else {
+                    tab.innerHTML = '<div class="loading">Tidak ada data</div>';
+                }
+            } catch (error) {
+                document.getElementById('log-tab').innerHTML = '<div class="loading">Error loading data</div>';
+            }
+        }
+
+        async function loadReportTable() {
+            try {
+                const response = await fetch(`${GAS_URL}?action=getReport`);
+                const result = await response.json();
+
+                const tab = document.getElementById('report-tab');
+                if (result.success && result.data.length > 0) {
+                    let html = '<table><tr><th>Nama</th><th>Total Jam</th><th>Total Gaji</th></tr>';
+                    result.data.forEach(r => {
+                        html += `<tr>
+                            <td>${r.nama}</td>
+                            <td>${r.totalJam.toFixed(2)} jam</td>
+                            <td>Rp${r.totalGaji.toLocaleString('id-ID')}</td>
+                        </tr>`;
+                    });
+                    html += '</table>';
+                    tab.innerHTML = html;
+                } else {
+                    tab.innerHTML = '<div class="loading">Tidak ada data</div>';
+                }
+            } catch (error) {
+                document.getElementById('report-tab').innerHTML = '<div class="loading">Error loading data</div>';
+            }
+        }
+
+        // ==================== UTILITIES ====================
+        function switchPage(page) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(`${page}Page`).classList.add('active');
+        }
+
+        function getTodayDate() {
+            const now = new Date();
+            return now.toISOString().split('T')[0];
+        }
+
+        function formatTime(date) {
+            const h = String(date.getHours()).padStart(2, '0');
+            const m = String(date.getMinutes()).padStart(2, '0');
+            const s = String(date.getSeconds()).padStart(2, '0');
+            return `${h}:${m}:${s}`;
+        }
+
+        function showToast(message, type) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
         }
     </script>
 </body>
